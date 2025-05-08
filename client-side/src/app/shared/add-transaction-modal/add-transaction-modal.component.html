@@ -1,112 +1,92 @@
 <h2 mat-dialog-title>Add Transaction</h2>
-<mat-dialog-content class="mat-typography">
+
+<div mat-dialog-content>
   <form #transactionForm="ngForm">
-    <!-- Title Field -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Title</mat-label>
-      <input
-        matInput
-        name="title"
-        [(ngModel)]="transaction.title"
-        ngModel
-        required
-      />
-    </mat-form-field>
+    <!-- Title -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput name="title" [(ngModel)]="transaction.title" required />
+      </mat-form-field>
+    </div>
 
-    <!-- Amount Field -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Amount</mat-label>
-      <input
-        matInput
-        type="number"
-        name="amount"
-        [(ngModel)]="transaction.amount"
-        ngModel
-        required
-      />
-    </mat-form-field>
+    <!-- Amount -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" name="amount" [(ngModel)]="transaction.amount" required />
+      </mat-form-field>
+    </div>
 
-    <!-- Category Field -->
-    <!-- Category Field -->
-<mat-form-field appearance="fill" class="full-width">
-  <mat-label>Category</mat-label>
-  <mat-select [(ngModel)]="transaction.category" name="category" required>
-    <mat-option *ngFor="let cat of availableCategories" [value]="cat">
-      {{ cat }}
-    </mat-option>
-    <!-- Option to add new category -->
-    <mat-option (click)="addCustomCategory()">Add new category...</mat-option>
-  </mat-select>
-</mat-form-field>
+    <!-- Category -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Category</mat-label>
+        <mat-select name="category" [(ngModel)]="transaction.category" (selectionChange)="onCategoryChange($event)" required>
+          <mat-option *ngFor="let category of availableCategories" [value]="category">
+            {{ category }}
+          </mat-option>
+          <!-- Add custom category option -->
+          <mat-option value="addCustom" *ngIf="!showAddCategoryField">Add Custom Category</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-<!-- ✅ Move this outside the mat-form-field -->
-<div *ngIf="showAddCategoryField" class="add-category-input">
-  <mat-form-field class="full-width">
-    <mat-label>New Category</mat-label>
-    <input matInput [(ngModel)]="newCategory" name="newCategory" />
-  </mat-form-field>
+    <!-- Custom category input -->
+    <div *ngIf="showAddCategoryField" class="add-category-field">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>New Category</mat-label>
+        <input matInput [(ngModel)]="newCategory" name="newCategory" />
+      </mat-form-field>
+      <button mat-button color="primary" type="button" (click)="addCategory()">Add</button>
+      <button mat-button color="warn" type="button" (click)="cancelAddCategory()">Cancel</button>
+    </div>
 
-  <button
-    mat-icon-button
-    color="primary"
-    (click)="addCategory()"
-    [disabled]="!newCategory"
-  >
-    <mat-icon>check_circle</mat-icon>
-  </button>
-  <button mat-icon-button color="warn" (click)="cancelAddCategory()">
-    <mat-icon>cancel</mat-icon>
-  </button>
+    <!-- Date -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="transaction.date" name="date" required />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Type -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Type</mat-label>
+        <mat-select name="type" [(ngModel)]="transaction.type" required>
+          <mat-option value="income">Income</mat-option>
+          <mat-option value="expense">Expense</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Mode -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Mode</mat-label>
+        <mat-select name="mode" [(ngModel)]="transaction.mode" required>
+          <mat-option value="cash">Cash</mat-option>
+          <mat-option value="card">Card</mat-option>
+          <mat-option value="upi">UPI</mat-option>
+          <mat-option value="bank">Bank</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Note -->
+    <div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Note (optional)</mat-label>
+        <textarea matInput name="note" [(ngModel)]="transaction.note" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+  </form>
 </div>
 
-
-    <!-- Mode Field -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Payment Mode</mat-label>
-      <mat-select [(ngModel)]="transaction.mode" name="mode" required>
-        <mat-option value="cash">Cash</mat-option>
-        <mat-option value="card">Card</mat-option>
-        <mat-option value="upi">UPI</mat-option>
-        <mat-option value="bank">Bank</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- Date Field -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        name="date"
-        [(ngModel)]="transaction.date"
-        ngModel
-        required
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <!-- Note Field -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Note</mat-label>
-      <textarea
-        matInput
-        name="note"
-        [(ngModel)]="transaction.note"
-        ngModel
-      ></textarea>
-    </mat-form-field>
-  </form>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
+<div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button
-    mat-button
-    color="primary"
-    [disabled]="!transactionForm.valid"
-    (click)="addTransaction(transactionForm.value)"
-  >
-    Add
-  </button>
-</mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="addTransaction(transaction)">Save</button>
+</div>

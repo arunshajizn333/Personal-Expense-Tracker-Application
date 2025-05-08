@@ -14,6 +14,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts'; // Ensure this is imported correctly
 import { FormsModule } from '@angular/forms';
 import { CsvDropzoneComponent } from './view-transactions/csv-dropzone/csv-dropzone.component'; 
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CsvDropzoneComponent } from './view-transactions/csv-dropzone/csv-dropz
     FormsModule,
     MainRoutingModule,
     MatIconModule,
-    BaseChartDirective, // Add BaseChartDirective here to ensure it's available in your module
+    BaseChartDirective,
+    SharedModule 
   ],
   providers: [provideCharts(withDefaultRegisterables())],  // Ensure this is configured correctly
 })

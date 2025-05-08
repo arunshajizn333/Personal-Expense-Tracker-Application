@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', loadChildren: () => import('./main/main.module').then(m => m.MainModule) },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-  { path: '**', redirectTo: '' } // Optional: redirect unknown routes
-
+  { path: '**', redirectTo: '' } // Catch-all fallback
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -190,21 +190,18 @@ export class ViewTransactionsComponent implements OnInit {
   }
   readonly dialog = inject(MatDialog);
 
-  openDialog() {
-    const dialogRef = this.dialog.open(AddTransactionModalComponent);
-  
+  addTransaction(): void {
+    const dialogRef = this.dialog.open(AddTransactionModalComponent, {
+      width: '500px', // Optional size
+      disableClose: true, // Prevent closing by clicking outside
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const newTransaction: Transaction = {
-          ...result,
-          _id: crypto.randomUUID(),
-          date: new Date(result.date)
-        };
-        this.transactions.unshift(newTransaction); // add to top
-        this.updatePagination();
+        console.log('Transaction data:', result);
+        // Optionally call a service to save the transaction
       }
     });
   }
-  
 
 }

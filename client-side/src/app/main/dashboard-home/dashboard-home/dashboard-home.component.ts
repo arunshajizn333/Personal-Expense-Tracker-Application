@@ -22,16 +22,16 @@ export class DashboardHomeComponent {
   }
   readonly dialog = inject(MatDialog);
 
-  openAddTransactionModal(): void {
+  addTransaction(): void {
     const dialogRef = this.dialog.open(AddTransactionModalComponent, {
-      width: '500px', // optional
-      disableClose: true, // optional
+      width: '500px', // Optional size
+      disableClose: true, // Prevent closing by clicking outside
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Transaction data:', result);
-        // Call service to save transaction or update local data
+        // Optionally call a service to save the transaction
       }
     });
   }

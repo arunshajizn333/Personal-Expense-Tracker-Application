@@ -27,12 +27,17 @@ export class AddTransactionModalComponent {
 
   constructor(private dialogRef: MatDialogRef<AddTransactionModalComponent>) {}
 
-  // Handle adding a custom category
-  addCustomCategory(): void {
-    this.showAddCategoryField = true;
+  // Handle category selection change
+  onCategoryChange(event: any): void {
+    if (event.value === 'addCustom') {
+      this.showAddCategoryField = true;
+    } else {
+      this.showAddCategoryField = false;
+      this.transaction.category = event.value;
+    }
   }
 
-  // Handle adding a new category to the list
+  // Handle adding a custom category
   addCategory(): void {
     if (this.newCategory && !this.availableCategories.includes(this.newCategory)) {
       this.availableCategories.push(this.newCategory);  // Add to available categories
@@ -47,11 +52,6 @@ export class AddTransactionModalComponent {
   cancelAddCategory(): void {
     this.showAddCategoryField = false;
     this.newCategory = ''; // Reset input
-  }
-
-  // Remove a selected category from the selected categories list
-  removeCategory(category: string): void {
-    this.selectedCategories = this.selectedCategories.filter(cat => cat !== category);
   }
 
   // Handle adding the transaction

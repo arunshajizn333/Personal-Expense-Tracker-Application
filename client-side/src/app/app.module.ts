@@ -4,18 +4,20 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+  
   ],
   providers: [
     provideClientHydration(withEventReplay()),
-    provideCharts(withDefaultRegisterables())
+    provideCharts(withDefaultRegisterables()),
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })
