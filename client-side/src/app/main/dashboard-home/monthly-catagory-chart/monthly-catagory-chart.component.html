@@ -1,0 +1,19 @@
+<div style="display: flex; flex-direction: row; width: 100%;">
+        <div style="width: 50%; margin-right: 10px;">
+          <canvas
+            baseChart
+            [data]="categoryChartData"
+            [type]="'pie'"
+            [options]="categoryChartOptions">
+          </canvas>
+        </div>
+        <div style="width: 50%;">
+          <canvas
+            baseChart
+            [data]="monthlyChartData"
+            [type]="'bar'"
+            [options]="monthlyChartOptions">
+          </canvas>
+        </div>
+      </div>
+      

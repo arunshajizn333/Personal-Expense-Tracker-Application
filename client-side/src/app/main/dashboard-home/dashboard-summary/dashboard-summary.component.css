@@ -1,0 +1,100 @@
+.insights {
+    display: flex; /* Flexbox to arrange insights in a row */
+    gap: 1.6rem;
+    margin-top: 1rem;
+    width: 100%; /* Take up full width */
+    
+    justify-content: space-between; /* Distribute items evenly */
+  }
+  
+  .insights > div {
+    background-color: var(--clr-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    flex: 1; /* Allow the insight cards to stretch */
+  }
+  
+  .insights > div:hover {
+    box-shadow: none;
+  }
+  
+  .insights > div span {
+    background: coral;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: var(--clr-white);
+    font-size: 2rem;
+  }
+  
+  .insights > div.expenses span {
+    background: var(--clr-danger);
+  }
+  
+  .insights > div.income span {
+    background: var(--clr-success);
+  }
+  
+  .middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .middle h1 {
+    font-size: 1.6rem;
+  }
+  
+  .progress {
+    position: relative;
+    height: 68px;
+    width: 68px;
+  }
+  
+  svg {
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    top: 0;
+  }
+  
+  svg circle {
+    fill: none;
+    stroke: var(--clr-primary);
+    stroke-width: 5;
+    transform: rotate(270deg);
+    transform-origin: 50% 50%;
+  }
+  
+  .sales svg circle {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 150;
+  }
+  
+  .expenses svg circle {
+    stroke-dashoffset: 10;
+    stroke-dasharray: 150;
+  }
+  
+  .income svg circle {
+    stroke: var(--clr-success);
+  }
+  
+  .number {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .insights > div small {
+    display: block;
+    margin-top: 1rem;
+    color: var(--clr-dark-variant);
+  }
+  

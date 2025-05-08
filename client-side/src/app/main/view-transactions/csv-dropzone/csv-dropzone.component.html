@@ -1,0 +1,34 @@
+<form (submit)="onSubmit()" (reset)="onReset()" class="dropzone-box">
+    <h2>Upload CSV File</h2>
+    <p>Click to upload or drag and drop</p>
+  
+    <div
+      class="dropzone-area"
+      [class.dropzone--over]="isDragging"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <div class="file-upload-icon">📄</div>
+      <input
+        type="file"
+        #fileInput
+        required
+        accept=".csv"
+        (change)="onFileChange($event)"
+      />
+      <p class="file-info">{{ fileName || 'No Files Selected' }}</p>
+    </div>
+  
+    <div class="dropzone-description">
+      <span>Max file size: 25MB</span>
+    </div>
+  
+    <div class="dropzone-actions">
+      <div class="action-buttons">
+        <button type="reset">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+  

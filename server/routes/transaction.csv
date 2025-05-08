@@ -1,0 +1,6 @@
+type,amount,mode,category,date,note
+income,1500,cash,Salary,2025-05-01,Monthly salary
+expense,200,card,Groceries,2025-05-02,Weekly groceries
+income,1000,upi,Freelance,2025-05-03,Freelance work
+expense,150,bank,Utilities,2025-05-04,Electricity bill
+expense,50,cash,Entertainment,2025-05-05,Movie night

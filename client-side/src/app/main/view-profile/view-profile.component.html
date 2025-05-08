@@ -1,0 +1,54 @@
+<div class="profile-container">
+  <div class="profile-content">
+    <!-- Left side: Info -->
+    <div class="profile-info">
+      <!-- Email (Read-only) -->
+      <div class="info-item">
+        <label>Email</label>
+        <div class="info-value readonly">
+          {{email}}
+        </div>
+      </div>
+
+      <!-- Username (Editable) -->
+      <div class="info-item">
+        <label>Username</label>
+        <div class="info-value">
+          <input
+            type="text"
+            [value]="userName"
+            *ngIf="isEditingName"
+            (blur)="stopEditingName()"
+            (input)="userName = $any($event.target).value"
+          />
+          <span *ngIf="!isEditingName">{{ userName }}</span>
+          <i class="edit-icon" (click)="startEditingName()">✎</i>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="info-item">
+        <label>Password</label>
+        <div class="info-value">
+          <button class="change-btn" (click)="togglePasswordInput()">
+            {{ showPasswordInput ? 'Cancel' : 'Change' }}
+          </button>
+        </div>
+        <div *ngIf="showPasswordInput" class="password-input">
+          <input
+            type="password"
+            [(ngModel)]="newPassword"
+            placeholder="Enter new password"
+          />
+          <button (click)="changePassword()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side: Avatar -->
+    <div class="profile-avatar">
+      <img src="user.jpg" alt="Profile Image" />
+      <button class="edit-avatar" (click)="editAvatar()">Edit Avatar</button>
+    </div>
+  </div>
+</div>

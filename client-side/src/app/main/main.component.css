@@ -1,0 +1,57 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  font-size: 0.7rem;
+  user-select: none;
+  overflow-x: hidden;
+  background: var(--clr-color-background);
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 14rem 1fr; /* Sidebar and main content */
+  gap: 1.8rem;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  background: #ccedfd;
+  overflow-y: auto; /* Ensures no vertical scroll */
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #c0ebff, #FFFFFF); /* Light blue to white gradient */
+  height: 100%;
+  padding: 1rem;
+  border-right: 2px solid #e0e0e0; /* Border for visual separation */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  margin-top: 1.4rem;
+  padding: 1rem;
+  width: 98%;
+  background: #ccedfd; /* Light pastel blue */
+  overflow-y: auto; /* Scrolls the main content */
+  height: calc(100vh - 1.4rem); /* Adjust to prevent overflow */
+}
+
+/* Hide sidebar and use full width when sidebar is hidden */
+.sidebar-hidden {
+  display: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Edge */
+.container::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.container,
+.main-content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}

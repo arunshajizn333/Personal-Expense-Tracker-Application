@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
+  background: #eeeeee; /* Light gray background */
+  color: #0a090c; /* Dark text for contrast */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+}
+
+.dropzone-box {
+  width: 100%;
+  width: 45rem;
+  padding: 2rem;
+  background: #ffffff; /* White background */
+  border: 1px solid #e0f1f3; /* Light border */
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a professional look */
+}
+
+.dropzone-box h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #211e30; /* Dark headline color */
+  margin-bottom: 0.5rem;
+}
+
+.dropzone-box p {
+  font-size: 1.1rem;
+  color: #767676; /* Gray text */
+}
+
+.dropzone-area {
+  position: relative;
+  min-height: 10rem;
+  width: 100%;
+  border: 2px dashed #04dce6; /* Light blue dashed border */
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  background-color: #fff; /* White background */
+}
+
+.dropzone-area:hover,
+.dropzone-area.dropzone--over {
+  background: #f2f7fe; /* Light blue hover background */
+  border-color: #091540; /* Dark primary border on hover */
+}
+
+.dropzone-area input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-info {
+  font-size: 1.1rem;
+  color: #767676; /* Gray text */
+}
+
+.dropzone-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.dropzone-actions {
+  font-size: 1rem;
+  color: #767676; /* Gray text */
+  cursor: pointer;
+  text-decoration: underline;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropzone-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: 1px solid #e0f1f3; /* Light border */
+  transition: background 0.3s ease;
+}
+
+.dropzone-actions button[type="submit"] {
+  background: #091540; /* Dark primary color */
+  color: #ffffff; /* White text */
+  border: none;
+}
+
+.dropzone-actions button[type="submit"]:hover {
+  background: #0037ff; /* Lighter primary color for hover */
+}
+
+.dropzone-actions button[type="reset"] {
+  background: transparent;
+  border: 1px solid #e0f1f3; /* Light border */
+  color: #0a090c; /* Dark text */
+}
+
+.dropzone-actions button[type="reset"]:hover {
+  background: #f2f7fe; /* Light blue hover background */
+  border-color: #091540; /* Dark primary border on hover */
+}

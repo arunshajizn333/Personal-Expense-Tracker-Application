@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp');
+
+:root {
+  --clr-dark: #2d2d2d;
+  --clr-white: #fff;
+  --clr-primary: #6c63ff;
+  --clr-success: #2aae2e;
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 2rem;
+  color: var(--clr-dark);
+}
+
+.material-symbols-sharp {
+  font-family: 'Material Symbols Sharp';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 1.8rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.theme-toggler {
+  background: var(--clr-white);
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  width: 5.5rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.theme-toggler span {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggler span.active {
+  background: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+.add-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--clr-success);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #18741c;
+}
+
+.summary,
+.charts,
+.orders {
+  margin-top: 2rem;
+}

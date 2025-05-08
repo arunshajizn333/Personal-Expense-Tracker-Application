@@ -1,0 +1,59 @@
+mat-form-field {
+  margin-bottom: 16px; /* Spacing between form fields */
+  width: 100%;
+}
+
+mat-dialog-content {
+  padding: 16px;
+  max-width: 500px; /* Control width for better layout */
+}
+
+mat-dialog-actions {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin: 0 8px;
+}
+
+mat-select, mat-input, textarea {
+  width: 100%;
+}
+
+mat-icon-button {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-title {
+  font-weight: 600;
+  color: #4a4a4a;
+}
+.add-category-input {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.selected-categories {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.category-chip {
+  background-color: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+

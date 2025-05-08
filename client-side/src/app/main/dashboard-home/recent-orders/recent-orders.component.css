@@ -1,0 +1,76 @@
+.recent_order {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.recent_order h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--clr-dark);
+}
+
+.recent_order table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--clr-white);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+}
+
+.recent_order thead {
+  background-color: #f7f7f7;
+}
+
+.recent_order thead th {
+  padding: 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--clr-dark);
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.recent_order tbody td {
+  padding: 0.8rem;
+  color: var(--clr-dark-variant);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.recent_order tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.recent_order tbody tr:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.recent_order a {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--clr-primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.recent_order a:hover {
+  text-decoration: underline;
+}
+
+/* Status Classes */
+.warning {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.success {
+  color: var(--clr-success);
+  font-weight: bold;
+}
+
+.primary {
+  color: var(--clr-primary);
+  font-weight: bold;
+  cursor: pointer;
+}

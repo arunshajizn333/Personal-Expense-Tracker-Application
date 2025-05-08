@@ -1,0 +1,24 @@
+<!-- recent-order.component.html -->
+<div class="recent_order">
+  <h2>Recent Transactions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Mode</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Display only recent 2-3 transactions -->
+      <tr *ngFor="let txn of recentTransactions">
+        <td>{{ txn.category }}</td>
+        <td>{{ txn.amount | currency: 'INR' }}</td>
+        <td>{{ txn.mode | titlecase }}</td>
+        <td [ngClass]="getStatusClass(txn.type)">{{ txn.type | titlecase }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <a href="transactions">Show All</a>
+</div>

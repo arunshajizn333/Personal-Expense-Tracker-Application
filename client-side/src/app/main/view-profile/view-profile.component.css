@@ -1,0 +1,134 @@
+.profile-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+.profile-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.profile-info {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.info-item {
+  margin-bottom: 25px;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.info-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-value input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.info-value span {
+  font-size: 1rem;
+  color: #222;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #4f4dfe;
+  font-size: 1.2rem;
+  margin-left: 8px;
+  transition: color 0.3s;
+}
+
+.edit-icon:hover {
+  color: #222;
+}
+
+.readonly input {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.change-btn {
+  background-color: #4f4dfe;
+  color: white;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.change-btn:hover {
+  background-color: #3d3bff;
+}
+
+.password-input {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.password-input input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.password-input button {
+  padding: 8px 16px;
+  background-color: #4f4dfe;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 180px;
+  text-align: center;
+}
+
+.profile-avatar img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ddd;
+}
+
+.edit-avatar {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #4f4dfe;
+  color: white;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.edit-avatar:hover {
+  background-color: #3d3bff;
+}

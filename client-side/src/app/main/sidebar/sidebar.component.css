@@ -1,0 +1,102 @@
+
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #81D4FA, #FFFFFF); /* Light blue to white gradient */
+}
+
+/* Top Bar */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: white; /* Change text color to white for contrast */
+}
+
+.logo img {
+  height: 7.5rem; /* Adjust as needed */
+  width: 15rem;
+  object-fit: contain;
+  border-radius: 5px; /* Optional: rounded edges */
+}
+
+
+.logo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.logo .danger {
+  color: var(--clr-danger);
+}
+
+.close span {
+  display: none; /* show this on mobile if needed */
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 180px); /* Adjust depending on .top height */
+  padding-top: 1rem;
+  position: relative;
+  color: #333; /* Set text color to dark for contrast */
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #333; /* Set text color to dark for better readability */
+  margin-left: 2rem;
+  height: 3.3rem;
+  text-decoration: none;
+  transition: all 0.1s ease;
+}
+
+.sidebar a span {
+  font-size: 1.6rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar a:hover span {
+  margin-left: 1rem;
+}
+
+.sidebar a.active {
+  background-color: #1565C0; /* Darker shade of blue for active links */
+  color: white;
+  border-left: 5px solid #0D47A1; /* Darker blue border */
+  margin-left: calc(1rem - 3px);
+}
+
+.sidebar a:last-child {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+}
+
+.sidebar a span.msg_count {
+  background-color: var(--clr-danger);
+  color: var(--clr-white);
+  padding: 2px 5px;
+  font-size: 11px;
+  border-radius: var(--border-radius-1);
+}
+
+/* Headings inside links */
+.sidebar h3 {
+  font-weight: 500;
+  margin: 0;
+}

@@ -1,0 +1,14 @@
+<div class="container" [ngClass]="{ 'sidebar-hidden': !sideMenuVisible }">
+  <!-- Sidebar -->
+  <aside *ngIf="sideMenuVisible" class="sidebar">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <button *ngIf="!sideMenuVisible" id="menu_bar" (click)="toggleSideMenu()">
+      <span class="material-symbols-sharp">menu</span>
+    </button>
+    <router-outlet></router-outlet>
+  </div>
+</div>
