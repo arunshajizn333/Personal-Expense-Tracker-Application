@@ -1,29 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core'; // Import inject
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-
-export function passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-  const password = control.get('password');
-  const confirmPassword = control.get('confirmPassword');
-
-  // If controls haven't been initialized yet, or one is missing, don't validate
-  if (!password || !confirmPassword) {
-    return null;
-  }
-
-  // If passwords don't match, set an error on the confirmPassword control
-  if (password.value !== confirmPassword.value) {
-    confirmPassword.setErrors({ matching: true });
-    return { passwordsMismatch: true }; // Error on the form group
-  } else {
-    // If they do match, and confirmPassword had the 'matching' error, remove it
-    if (confirmPassword.hasError('matching')) {
-        confirmPassword.setErrors(null);
-    }
-    return null; // No error
-  }
-}
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-signup',
@@ -31,23 +10,27 @@ export function passwordsMatchValidator(control: AbstractControl): ValidationErr
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent  implements OnInit {
+export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   submitted = false;
+  emailExistsError : string ='';
 
-  // For Google Sign-In, you would inject a service like SocialAuthService
-  // For example: private authService = inject(SocialAuthService); (after setup)
-  private formBuilder = inject(FormBuilder);
-  private router = inject(Router);
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required],
-      agreeTerms: [false, Validators.requiredTrue] // Checkbox must be true
-    }, { validators: passwordsMatchValidator }); // Add custom validator to the form group
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$') // Must include letters and numbers
+      ]]
+    });
   }
 
   // Convenience getter for easy access to form fields
@@ -56,36 +39,45 @@ export class SignupComponent  implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // Re-validate confirmPassword in case password changed after initial validation
-    this.signupForm.get('confirmPassword')?.updateValueAndValidity();
-
+    // Stop here if form is invalid
     if (this.signupForm.invalid) {
-      console.log('Form is invalid:', this.signupForm.errors);
-      // Manually check the agreeTerms checkbox as Validators.requiredTrue might not always set the control to dirty
-      if (this.f['agreeTerms'].errors) {
-        console.log("Terms not agreed.");
-      }
+      // Mark all fields as touched to show errors if not already shown
+      Object.keys(this.signupForm.controls).forEach(field => {
+        const control = this.signupForm.get(field);
+        control?.markAsTouched({ onlySelf: true });
+      });
       return;
     }
 
-    // Process signup here
-    console.log('Sign up successful!', this.signupForm.value);
-    alert('SUCCESS!!\n\n' + JSON.stringify(this.signupForm.value, null, 4));
-    // Example: this.authService.signUp(this.signupForm.value).subscribe(...)
-    // Navigate to login or dashboard on success
-    // this.router.navigate(['/login']);
+    const user: User = {
+      userName: this.signupForm.value.username,
+      email: this.signupForm.value.email,
+      password: this.signupForm.value.password
+      // Add id or other properties if your User model requires them for signup
+      // e.g., id: undefined (if backend generates it)
+    };
+
+    this.authService.signup(user).subscribe({
+      next: (res) => {
+        console.log('Signup success:', res);
+        // Optionally display a success message to the user
+        alert('Signup successful! Please login.'); // Or use a more sophisticated notification
+        this.router.navigate(['/auth/login']); // Navigate to login
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.emailExistsError = 'Email already exists';
+        } else {
+          this.emailExistsError = 'Something went wrong';
+        }
+      }
+    });
   }
 
   signUpWithGoogle(): void {
     console.log('Sign up with Google initiated');
-    // Here you would call your Google Sign-In service method
-    // e.g., this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(userData => { ... });
-    // This requires a library like @abacritt/angularx-social-login (the successor to angularx-social-login)
-    // or implementing Google Identity Services directly.
+    // Implement your Google Sign-Up logic here, likely involving the AuthService
+    // For example: this.authService.signUpWithGoogle().subscribe(...);
     alert('Google Sign-Up: Integration pending. See console for details.');
   }
-
-  
-
- 
 }

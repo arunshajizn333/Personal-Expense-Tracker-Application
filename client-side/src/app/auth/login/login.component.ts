@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // Use definite assignment assertion
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -26,17 +31,23 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-
-    // Stop here if form is invalid
+  
     if (this.loginForm.invalid) {
-      console.log('Form is invalid');
       return;
     }
-
-    // Process login here
-    console.log('Login successful!', this.loginForm.value);
-    alert('SUCCESS!!\n\n' + JSON.stringify(this.loginForm.value, null, 4));
-    // Here you would typically call an authentication service
-    // For example: this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(...)
-  }
-}
+  
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (res) => {
+        // Save token to localStorage
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+  
+        // Navigate to dashboard or other route
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        alert('Invalid credentials or server error.');
+      }
+    });
+}}
