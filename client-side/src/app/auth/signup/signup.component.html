@@ -1,1 +1,96 @@
-hello
+<div class="main">
+<div class="signup-container">
+  <div class="signup-form-container">
+    <h2>Create Account</h2>
+
+    <div class="social-login">
+      <button (click)="signUpWithGoogle()" class="social-btn google-btn">
+        <i class="fab fa-google"></i> Sign up with Google
+      </button>
+      </div>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          formControlName="username"
+          placeholder="Username"
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+        />
+        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+          <div *ngIf="f['username'].errors['required']">Username is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="Email"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">Password is required</div>
+          <div *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          formControlName="confirmPassword"
+          placeholder="Confirm Password"
+          [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
+        />
+        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+          <div *ngIf="f['confirmPassword'].errors['required']">Confirming password is required</div>
+          <div *ngIf="f['confirmPassword'].errors['matching']">Passwords must match</div>
+        </div>
+      </div>
+
+      <div class="form-group terms">
+        <input type="checkbox" id="agreeTerms" formControlName="agreeTerms"
+               [ngClass]="{ 'is-invalid': submitted && f['agreeTerms'].errors }">
+        <label for="agreeTerms">I agree to the <a href="/terms" target="_blank">Terms and Conditions</a></label>
+        <div *ngIf="submitted && f['agreeTerms'].errors?.['required']" class="invalid-feedback">
+            You must agree to the terms and conditions.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary sign-up-btn">Sign Up</button>
+    </form>
+    <p class="login-link">Already have an account? <a routerLink="/auth/login">Sign In</a></p>
+  </div>
+
+  <div class="info-container-signup">
+    <h2>Welcome!</h2>
+    <p>Join our community and start your journey with us today.</p>
+    <img src="assets/images/signup-illustration.svg" alt="Sign Up Illustration" class="signup-illustration">
+    </div>
+</div>
+</div>
