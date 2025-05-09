@@ -1,178 +1,156 @@
-/* Dialog container styling */
-mat-dialog-content {
+/* General Modal Styling */
+:host {
+  display: block;
+  border-radius: 12px; /* Apply radius to host for consistent dialog shape */
+  overflow: hidden; /* Important for border-radius on dialog */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #f8f9fa; /* Light header background */
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-header h2 { /* Overrides mat-dialog-title default styling */
+  margin: 0;
+  font-size: 1.25rem; /* Slightly smaller, more modern */
+  font-weight: 500;
+  color: #343a40;
+}
+
+.close-button {
+  color: #6c757d;
+}
+
+.modal-content { /* Overrides mat-dialog-content default padding */
   padding: 24px;
-  max-width: 600px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background-color: #fafafa; /* Light background */
 }
 
-/* Dialog title styling */
-mat-dialog-title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #333; /* Dark color for title */
-  margin-bottom: 16px;
-  text-align: center;
-  font-family: 'Roboto', sans-serif; /* Clean, modern font */
-}
-
-/* Form field styling */
-mat-form-field {
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 6px;
-}
-
-mat-form-field mat-label {
-  font-weight: 500;
-  color: #555; /* Darker label color */
-}
-
-mat-input, mat-select, textarea {
-  font-size: 1rem;
-  color: #333;
-  border-radius: 6px;
-  padding: 12px;
-  border: 1px solid #ccc; /* Subtle border */
-  background-color: #fff; /* Clean white background */
-  transition: border 0.3s ease-in-out;
-}
-
-/* Hover effect on input fields */
-mat-input:hover, mat-select:hover, textarea:hover {
-  border-color: #00796b; /* Darker border on hover */
-}
-
-/* Focus effect on input fields */
-mat-input.mat-input-element:focus, mat-select.mat-select-element:focus, textarea.mat-input-element:focus {
-  border-color: #00796b; /* Green color on focus */
-}
-
-/* Custom category input field */
-.add-category-field {
-  margin-top: 16px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.add-category-field mat-form-field {
-  margin-bottom: 20px;
-}
-
-.add-category-field button {
-  margin-right: 14px;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-size: 1rem;
-  background-color: #00796b; /* Standard teal color */
-  color: white;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-
-.add-category-field button:hover {
-  background-color: #004d40; /* Darker teal on hover */
-}
-
-.add-category-field button:active {
-  transform: scale(0.98); /* Slight shrink effect */
-}
-
-/* Dialog action buttons */
-mat-dialog-actions {
-  padding: 16px;
-  display: flex;
-  justify-content: flex-end;
-  background-color: #f1f1f1; /* Light neutral background */
-  border-top: 1px solid #e0e0e0;
-  border-radius: 0 0 8px 8px;
-}
-
-button.mat-button {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 10px 24px;
-  border-radius: 25px;
-  background-color: #00796b; /* Standard teal color */
-  color: white;
-  border: none;
-  margin-right: 12px;
-  transition: all 0.3s ease;
-}
-
-button.mat-button:hover {
-  background-color: #004d40; /* Darker teal on hover */
-}
-
-button.mat-button[mat-dialog-close] {
-  background-color: #e0e0e0; /* Neutral cancel button */
-  color: #333;
-}
-
-button.mat-button[mat-dialog-close]:hover {
-  background-color: #ccc; /* Darker neutral on hover */
-}
-
-/* Primary save button styling */
-button.mat-flat-button {
-  background-color: #00796b; /* Standard teal */
-  color: white;
-  font-weight: 600;
-  padding: 12px 30px;
-  border-radius: 25px;
-  text-transform: uppercase;
-  border: none;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button.mat-flat-button:hover {
-  background-color: #004d40;
-}
-
-/* Category chips styling */
-.selected-categories {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.category-chip {
-  background-color: #e0e0e0; /* Neutral background */
-  padding: 8px 16px;
-  border-radius: 16px;
+.error-message-banner {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  transition: background-color 0.3s ease;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+.error-message-banner mat-icon {
+  margin-right: 8px;
+  font-size: 1.2rem; /* Adjust icon size */
 }
 
-.category-chip mat-icon {
-  font-size: 1rem;
-  cursor: pointer;
+
+/* Form Layout */
+.form-row {
+  display: flex;
+  gap: 20px; /* Space between fields in a row */
+  margin-bottom: 0; /* Remove bottom margin from row, field will have it */
 }
 
-.selected-categories .category-chip:hover {
-  background-color: #00796b; /* Teal color on hover */
-  color: white;
+.form-field {
+  flex: 1; /* Each field takes equal space in a row */
+  margin-bottom: 20px; /* Space below each field */
 }
 
-/* Full width inputs */
-.full-width {
+.full-width-field {
   width: 100%;
+  margin-bottom: 20px;
 }
 
-/* Hover and transition effects for buttons and form fields */
-button:hover, mat-input:hover, mat-select:hover {
-  background-color: #f0f0f0;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+/* Angular Material Form Field Customization */
+mat-form-field {
+  width: 100%; /* Ensure it takes full width of its container (.form-field or .full-width-field) */
+}
+
+/* Custom Category Section */
+.add-category-section {
+  align-items: center; /* Align input and buttons vertically */
+  margin-bottom: 20px; /* Space below this section */
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.custom-category-input {
+  flex-grow: 2; /* Give more space to the input field */
+  margin-bottom: 0 !important; /* Remove bottom margin if it's inside .add-category-section */
+}
+
+.custom-category-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* Align buttons with the input field */
+  margin-left: 16px; /* Space between input and buttons */
+}
+.custom-category-actions button {
+  min-width: auto; /* Allow buttons to be smaller */
+  padding: 0 12px !important; /* Adjust padding for mat-stroked-button */
+}
+.custom-category-actions button mat-icon {
+  margin-right: 4px;
+  font-size: 1.1rem;
+}
+
+
+.add-custom-option mat-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Dialog Actions */
+.modal-actions { /* Overrides mat-dialog-actions default padding */
+  padding: 16px 24px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.modal-actions button {
+  font-weight: 500;
+  border-radius: 6px !important; /* Consistent border radius */
+  padding: 0.5rem 1.25rem !important; /* Adjust padding */
+}
+.modal-actions button[mat-flat-button] mat-progress-spinner {
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column; /* Stack fields vertically on small screens */
+    gap: 0; /* Remove gap when stacked, margin-bottom on field handles spacing */
+  }
+
+  .form-field {
+    margin-bottom: 20px; /* Ensure consistent spacing when stacked */
+  }
+
+  .add-category-section {
+    flex-direction: column;
+    align-items: stretch; /* Make input and buttons full width */
+  }
+  .custom-category-actions {
+    margin-left: 0;
+    margin-top: 10px;
+    justify-content: flex-end; /* Align buttons to the right */
+  }
+
+  .modal-actions {
+    justify-content: space-between; /* Space out buttons on small screens */
+  }
+  .modal-actions button {
+    flex-grow: 1; /* Allow buttons to grow */
+    margin: 0 4px;
+  }
+  .modal-actions button:first-child { margin-left: 0; }
+  .modal-actions button:last-child { margin-right: 0; }
 }

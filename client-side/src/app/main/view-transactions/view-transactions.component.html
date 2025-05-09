@@ -1,48 +1,125 @@
 <div class="transaction-container">
-  <div class="header">
-    <h2>Transaction History</h2>
-    <button mat-button class="add-btn" (click)="addTransaction()">+ Add Transaction</button>
+  <header class="header">
+    <h1>Transaction History</h1>
+    <button mat-raised-button color="primary" class="add-btn" (click)="addTransactionDialog()">
+      <span class="material-icons">add_circle_outline</span> Add Transaction
+    </button>
+  </header>
+
+  <div *ngIf="isLoading" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    <p>Loading transactions...</p>
+  </div>
+  <div *ngIf="errorMessage && !isLoading" class="error-message">
+    <span class="material-icons">error_outline</span>
+    <p>{{ errorMessage }}</p>
+    <button mat-stroked-button color="warn" (click)="loadTransactions()">Try Again</button>
   </div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Category</th>
-          <th>Note</th>
-          <th>Amount</th>
-          <th>Mode</th>
-          <th>Type</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let txn of paginatedTransactions">
-          <td>{{ txn.date | date: 'dd MMM yyyy' }}</td>
-          <td>{{ txn.category }}</td>
-          <td>{{ txn.note }}</td>
-          <td>{{ txn.amount | currency: 'INR':'symbol-narrow' }}</td>
-          <td>{{ txn.mode }}</td>
-          <td>
-            <span [ngClass]="txn.type" class="badge">{{ txn.type }}</span>
-          </td>
-          <td>
-            <button (click)="deleteTransaction(txn._id)" class="delete-btn">🗑</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="pagination">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-      <button class="download-btn" (click)="downloadCSV()">Download CSV</button>
+  <section class="controls-section" *ngIf="!isLoading && !errorMessage">
+    <div class="filters-card">
+      <h2><span class="material-icons">filter_alt</span> Filters</h2>
+      <div class="filter-controls">
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Start Date</mat-label>
+          <input matInput type="date" [(ngModel)]="filterDateStart" (change)="applyFiltersAndPagination()">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>End Date</mat-label>
+          <input matInput type="date" [(ngModel)]="filterDateEnd" (change)="applyFiltersAndPagination()">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="filterType" (selectionChange)="applyFiltersAndPagination()">
+            <mat-option value="all">All Types</mat-option>
+            <mat-option value="income">Income</mat-option>
+            <mat-option value="expense">Expense</mat-option>
+            <mat-option value="savings">Savings</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-stroked-button (click)="resetFilters()" class="reset-filters-btn">
+          <span class="material-icons">refresh</span> Reset Filters
+        </button>
+      </div>
     </div>
-  </div>
 
-  <div class="file-section">
-    <app-csv-dropzone></app-csv-dropzone>
-  </div>
+    <div class="summary-card">
+      <h2><span class="material-icons">summarize</span> Summary (Filtered)</h2>
+      <div class="summary-details">
+        <p>Total Income: <span class="summary-income">{{ transactionSummary.totalIncome | currency:'INR':'symbol-narrow' }}</span></p>
+        <p>Total Expense: <span class="summary-expense">{{ transactionSummary.totalExpense | currency:'INR':'symbol-narrow' }}</span></p>
+        <p>Total Savings: <span class="summary-savings">{{ transactionSummary.totalSavings | currency:'INR':'symbol-narrow' }}</span></p>
+        <hr>
+        <p class="net-flow">Net Flow: <span [ngClass]="{'positive-flow': transactionSummary.netFlow >= 0, 'negative-flow': transactionSummary.netFlow < 0}">{{ transactionSummary.netFlow | currency:'INR':'symbol-narrow' }}</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="table-section" *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="filteredTransactions.length === 0 && !isLoading" class="no-transactions">
+       <span class="material-icons sad-icon">sentiment_dissatisfied</span>
+      <p>No transactions found for the selected criteria.</p>
+      <p *ngIf="allTransactions.length > 0">Try adjusting your filters or <a (click)="resetFilters()" href="javascript:void(0)">reset them</a>.</p>
+      <p *ngIf="allTransactions.length === 0">Start by <a (click)="addTransactionDialog()" href="javascript:void(0)">adding a new transaction</a> or uploading a CSV.</p>
+    </div>
+
+    <div class="table-wrapper" *ngIf="paginatedTransactions.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Note</th>
+            <th class="amount-col">Amount</th>
+            <th>Mode</th>
+            <th>Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let txn of paginatedTransactions" [attr.data-testid]="'transaction-row-' + txn._id">
+            <td data-label="Date">{{ txn.date | date: 'dd MMM yy' }}</td>
+            <td data-label="Category">{{ txn.category }}</td>
+            <td data-label="Note" class="note-cell" matTooltip="{{txn.note}}" matTooltipPosition="above">{{ txn.note | slice:0:30 }}{{ txn.note.length > 30 ? '...' : '' }}</td>
+            <td data-label="Amount" class="amount-col">{{ txn.amount | currency: 'INR':'symbol-narrow' }}</td>
+            <td data-label="Mode">{{ txn.mode }}</td>
+            <td data-label="Type">
+              <span class="badge" [ngClass]="txn.type">{{ txn.type }}</span>
+            </td>
+            <td data-label="Actions">
+              <button mat-icon-button color="warn" (click)="deleteTransaction(txn._id)" class="delete-btn" aria-label="Delete transaction">
+                <span class="material-icons">delete_outline</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button mat-stroked-button (click)="previousPage()" [disabled]="currentPage === 1">
+        <span class="material-icons">chevron_left</span> Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }} ({{filteredTransactions.length}} items)</span>
+      <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next <span class="material-icons">chevron_right</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="file-actions-section" *ngIf="!isLoading && !errorMessage">
+     <div class="file-card">
+      <h3><span class="material-icons">file_upload</span> Upload Transactions</h3>
+      <app-csv-dropzone (fileConfirmedForUpload)="handleCsvFileFromDropzone($event)"></app-csv-dropzone>
+      <small>Expected CSV format: type,amount,mode,category,date (YYYY-MM-DD),note</small>
+    </div>
+    <div class="file-card">
+        <h3><span class="material-icons">file_download</span> Download Report</h3>
+        <button mat-flat-button color="accent" (click)="downloadCSV()" class="download-csv-btn" [disabled]="filteredTransactions.length === 0">
+            <span class="material-icons">download</span> Download Filtered as CSV
+        </button>
+    </div>
+  </section>
+
+
 </div>

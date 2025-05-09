@@ -1,23 +1,18 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Removed global styles:
+body { ... }
+* { ... }
+They should be handled at a higher application level or be more scoped.
+*/
 
-body {
-  font-family: 'Work Sans', sans-serif;
-  background: #eeeeee; /* Light gray background */
-  color: #0a090c; /* Dark text for contrast */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 1rem;
+:host { /* Styles for the component host element itself */
+  display: block; /* Ensures the component behaves like a block-level element */
+  max-width: 45rem; /* You can set max-width here if it's always desired */
+  margin: auto; /* For centering if max-width is set */
 }
 
 .dropzone-box {
   width: 100%;
-  width: 45rem;
+  /* width: 45rem; /* Consider setting max-width on :host or a wrapper if needed globally */
   padding: 2rem;
   background: #ffffff; /* White background */
   border: 1px solid #e0f1f3; /* Light border */
@@ -33,16 +28,19 @@ body {
   font-weight: bold;
   color: #211e30; /* Dark headline color */
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
-.dropzone-box p {
+.dropzone-box > p { /* Target only the direct child p for the subtitle */
   font-size: 1.1rem;
   color: #767676; /* Gray text */
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .dropzone-area {
   position: relative;
-  min-height: 10rem;
+  min-height: 10rem; /* Reduced min-height slightly */
   width: 100%;
   border: 2px dashed #04dce6; /* Light blue dashed border */
   border-radius: 1rem;
@@ -53,7 +51,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  background-color: #fff; /* White background */
+  background-color: #f9fbfc; /* Slightly off-white background */
+  padding: 1rem;
 }
 
 .dropzone-area:hover,
@@ -62,34 +61,36 @@ body {
   border-color: #091540; /* Dark primary border on hover */
 }
 
-.dropzone-area input[type="file"] {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+.file-upload-icon {
+  font-size: 3rem; /* Larger icon */
+  color: #04dce6;
+  margin-bottom: 0.5rem;
 }
 
 .file-info {
-  font-size: 1.1rem;
+  font-size: 1rem; /* Slightly smaller */
+  color: #555; /* Darker gray text */
+  margin-top: 0.5rem;
+  word-break: break-all; /* Prevent long file names from breaking layout */
+  padding: 0 10px;
+}
+.dropzone-prompt-text {
+    font-size: 0.9rem;
+    color: #767676;
+}
+
+
+.dropzone-description {
+  text-align: center;
+  font-size: 0.9rem;
   color: #767676; /* Gray text */
 }
 
 .dropzone-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center buttons */
   align-items: center;
   margin-top: 1rem;
-}
-
-.dropzone-actions {
-  font-size: 1rem;
-  color: #767676; /* Gray text */
-  cursor: pointer;
-  text-decoration: underline;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .action-buttons {
@@ -98,31 +99,33 @@ body {
 }
 
 .dropzone-actions button {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.5rem; /* Increased padding */
   font-size: 1rem;
+  font-weight: 500; /* Slightly bolder text */
   border-radius: 0.5rem;
   cursor: pointer;
   border: 1px solid #e0f1f3; /* Light border */
-  transition: background 0.3s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.dropzone-actions button[type="submit"] {
+.dropzone-actions button[type="button"]:nth-child(2) { /* Targeting the "Upload File" button */
   background: #091540; /* Dark primary color */
   color: #ffffff; /* White text */
-  border: none;
+  border-color: #091540;
 }
 
-.dropzone-actions button[type="submit"]:hover {
+.dropzone-actions button[type="button"]:nth-child(2):hover {
   background: #0037ff; /* Lighter primary color for hover */
+  border-color: #0037ff;
 }
 
-.dropzone-actions button[type="reset"] {
+.dropzone-actions button[type="button"]:first-child { /* Targeting the "Cancel" button */
   background: transparent;
-  border: 1px solid #e0f1f3; /* Light border */
-  color: #0a090c; /* Dark text */
+  border: 1px solid #ced4da; /* Standard light gray border */
+  color: #495057; /* Darker text for better readability */
 }
 
-.dropzone-actions button[type="reset"]:hover {
-  background: #f2f7fe; /* Light blue hover background */
-  border-color: #091540; /* Dark primary border on hover */
+.dropzone-actions button[type="button"]:first-child:hover {
+  background: #f1f3f5; /* Light gray hover background */
+  border-color: #adb5bd; /* Darker border on hover */
 }

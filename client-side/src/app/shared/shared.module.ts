@@ -11,6 +11,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider'; // Added
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Added
 
 // Component
 import { AddTransactionModalComponent } from './add-transaction-modal/add-transaction-modal.component';
@@ -24,7 +26,9 @@ const materialModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSelectModule,
-  MatIconModule
+  MatIconModule,
+  MatDividerModule,          // Added
+  MatProgressSpinnerModule   // Added
 ];
 
 @NgModule({
@@ -32,7 +36,6 @@ const materialModules = [
     AddTransactionModalComponent,
   ],
   imports: [
-   
     CommonModule,
     FormsModule,
     ...materialModules

@@ -1,92 +1,110 @@
-<h2 mat-dialog-title>Add Transaction</h2>
+<div class="modal-header">
+  <h2 mat-dialog-title>Add New Transaction</h2>
+  <button mat-icon-button class="close-button" (click)="onCancel()" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 
-<div mat-dialog-content>
-  <form #transactionForm="ngForm">
-    <!-- Title -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Title</mat-label>
-        <input matInput name="title" [(ngModel)]="transaction.title" required />
+<mat-dialog-content class="modal-content">
+  <form #transactionForm="ngForm" novalidate>
+    <div *ngIf="errorMessage" class="error-message-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Title / Description</mat-label>
+        <input matInput name="title" [(ngModel)]="transaction.title" placeholder="e.g., Groceries from SuperMart" required #titleField="ngModel">
+        <mat-error *ngIf="titleField.invalid && (titleField.dirty || titleField.touched)">Title is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Amount (INR)</mat-label>
+        <input matInput type="number" name="amount" [(ngModel)]="transaction.amount" placeholder="e.g., 500" required min="0.01" #amountField="ngModel">
+         <span matTextPrefix>₹&nbsp;</span>
+        <mat-error *ngIf="amountField.invalid && (amountField.dirty || amountField.touched)">
+          <span *ngIf="amountField.errors?.['required']">Amount is required.</span>
+          <span *ngIf="amountField.errors?.['min']">Amount must be positive.</span>
+        </mat-error>
       </mat-form-field>
     </div>
 
-    <!-- Amount -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Amount</mat-label>
-        <input matInput type="number" name="amount" [(ngModel)]="transaction.amount" required />
-      </mat-form-field>
-    </div>
-
-    <!-- Category -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
         <mat-label>Category</mat-label>
-        <mat-select name="category" [(ngModel)]="transaction.category" (selectionChange)="onCategoryChange($event)" required>
+        <mat-select name="category" [(ngModel)]="transaction.category" (selectionChange)="onCategoryChange($event)" required #categoryField="ngModel">
           <mat-option *ngFor="let category of availableCategories" [value]="category">
             {{ category }}
           </mat-option>
-          <!-- Add custom category option -->
-          <mat-option value="addCustom" *ngIf="!showAddCategoryField">Add Custom Category</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option value="addCustom" class="add-custom-option">
+            <mat-icon>add_circle_outline</mat-icon> Add New Category
+          </mat-option>
         </mat-select>
+        <mat-error *ngIf="categoryField.invalid && (categoryField.dirty || categoryField.touched)">Category is required.</mat-error>
       </mat-form-field>
-    </div>
 
-    <!-- Custom category input -->
-    <div *ngIf="showAddCategoryField" class="add-category-field">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>New Category</mat-label>
-        <input matInput [(ngModel)]="newCategory" name="newCategory" />
-      </mat-form-field>
-      <button mat-button color="primary" type="button" (click)="addCategory()">Add</button>
-      <button mat-button color="warn" type="button" (click)="cancelAddCategory()">Cancel</button>
-    </div>
-
-    <!-- Date -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="transaction.date" name="date" required />
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date of Transaction</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="transaction.date" name="date" required readonly (click)="picker.open()" #dateField="ngModel">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="dateField.invalid && (dateField.dirty || dateField.touched)">Date is required.</mat-error>
       </mat-form-field>
     </div>
 
-    <!-- Type -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Type</mat-label>
+    <div *ngIf="showAddCategoryField" class="add-category-section form-row">
+      <mat-form-field appearance="outline" class="form-field custom-category-input">
+        <mat-label>New Category Name</mat-label>
+        <input matInput [(ngModel)]="newCategory" name="newCustomCategory" placeholder="e.g., Online Subscriptions" (keyup.enter)="addCustomCategory()">
+      </mat-form-field>
+      <div class="custom-category-actions">
+        <button mat-stroked-button color="primary" type="button" (click)="addCustomCategory()" [disabled]="!newCategory.trim()">
+            <mat-icon>add</mat-icon> Add
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelAddCategory()">
+            <mat-icon>cancel</mat-icon> Cancel
+        </button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Transaction Type</mat-label>
         <mat-select name="type" [(ngModel)]="transaction.type" required>
           <mat-option value="income">Income</mat-option>
           <mat-option value="expense">Expense</mat-option>
+          <mat-option value="savings">Savings</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <!-- Mode -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Mode</mat-label>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Payment Mode</mat-label>
         <mat-select name="mode" [(ngModel)]="transaction.mode" required>
           <mat-option value="cash">Cash</mat-option>
-          <mat-option value="card">Card</mat-option>
+          <mat-option value="card">Card (Debit/Credit)</mat-option>
           <mat-option value="upi">UPI</mat-option>
-          <mat-option value="bank">Bank</mat-option>
+          <mat-option value="bank">Bank Transfer</mat-option>
+          <mat-option value="other">Other</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
-    <!-- Note -->
-    <div>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Note (optional)</mat-label>
-        <textarea matInput name="note" [(ngModel)]="transaction.note" rows="3"></textarea>
-      </mat-form-field>
-    </div>
-  </form>
-</div>
+    <mat-form-field appearance="outline" class="full-width-field">
+      <mat-label>Additional Note (Optional)</mat-label>
+      <textarea matInput name="optionalNote" [(ngModel)]="transaction.note" rows="3" placeholder="Any extra details about this transaction..."></textarea>
+    </mat-form-field>
 
-<div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-flat-button color="primary" (click)="addTransaction(transaction)">Save</button>
-</div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="modal-actions">
+  <button mat-stroked-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSaveTransaction()" [disabled]="transactionForm.invalid || isLoading">
+    <span *ngIf="!isLoading">Save Transaction</span>
+    <span *ngIf="isLoading">
+        <mat-progress-spinner mode="indeterminate" diameter="20" strokeWidth="3"></mat-progress-spinner> Saving...
+    </span>
+  </button>
+</mat-dialog-actions>

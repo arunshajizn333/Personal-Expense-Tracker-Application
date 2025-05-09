@@ -1,137 +1,417 @@
-.transaction-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
+/* :host provides a base for the component's view */
+:host {
+  display: block;
+  background-color: #f4f6f8; /* A slightly softer background */
+  min-height: 100vh;
+  padding: 1rem; /* Add padding at the host level for smaller screens */
 }
 
+.transaction-container {
+  max-width: 1400px; /* Increased max-width for wider screens */
+  margin: 1rem auto; /* Consistent margin */
+  padding: 2rem;    /* Generous padding inside the main container */
+  font-family: 'Roboto', 'Segoe UI', sans-serif; /* Consistent font */
+  background-color: #ffffff;
+  border-radius: 16px; /* Softer, larger border radius */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07); /* More subtle but deeper shadow */
+}
+
+/* Material Icons styling */
+.material-icons-outlined {
+  vertical-align: middle;
+  font-size: 1.2em; /* Slightly smaller default for better balance */
+}
+
+/* Header Section */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem; /* Increased bottom margin */
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef; /* Lighter border color */
 }
 
-.header h2 {
+.header h1 {
   margin: 0;
-  font-size: 1.8rem;
-  color: #333;
+  font-size: 2rem; /* Slightly reduced for balance */
+  font-weight: 500;
+  color: #343a40; /* Darker, more standard heading color */
 }
 
 .add-btn {
-  padding: 0.5rem 1rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
+  font-size: 0.9rem !important;
+  padding: 0.75rem 1.5rem !important; /* Adjust padding for mat-raised-button */
+  border-radius: 8px !important;
+}
+.add-btn .material-icons-outlined {
+  margin-right: 8px;
+  font-size: 1.3em;
 }
 
-.add-btn:hover {
-  background-color: #3e9142;
+/* Loading, Error, and No-Data States */
+.loading-indicator, .error-message, .no-transactions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem; /* Reduced padding for these states */
+  text-align: center;
+  color: #6c757d; /* Softer text color */
+  min-height: 250px; /* Ensure they take up some space */
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.loading-indicator { background-color: #f8f9fa; }
+.loading-indicator p { margin-top: 1rem; font-size: 1rem; }
+
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+.error-message .material-icons-outlined { font-size: 2rem; margin-bottom: 0.5rem; }
+.error-message p { margin-bottom: 1rem; font-size: 1rem; }
+.error-message button { margin-top: 0.5rem; }
+
+.no-transactions { background-color: #e9ecef; }
+.no-transactions .sad-icon { font-size: 3rem; color: #adb5bd; margin-bottom: 0.5rem; }
+.no-transactions p { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.no-transactions a {
+  color: var(--primary-color, #007bff); /* Use CSS variable or fallback */
+  text-decoration: none;
+  font-weight: 500;
+}
+.no-transactions a:hover { text-decoration: underline; }
+
+
+/* Controls Section (Filters & Summary) */
+.controls-section {
+  display: grid;
+  grid-template-columns: 3fr 2fr; /* Give filters more space */
+  gap: 2rem; /* Increased gap */
+  margin-bottom: 2.5rem;
 }
 
+.filters-card, .summary-card {
+  background-color: #ffffff;
+  padding: 1.75rem; /* Increased padding */
+  border-radius: 12px; /* Consistent softer radius */
+  border: 1px solid #dee2e6;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); Removed individual shadow, container has one */
+}
+
+.filters-card h2, .summary-card h2 {
+  font-size: 1.25rem; /* Adjusted size */
+  font-weight: 500;
+  color: #495057;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex; /* For icon alignment */
+  align-items: center;
+}
+.filters-card h2 .material-icons-outlined,
+.summary-card h2 .material-icons-outlined {
+  margin-right: 10px; /* Space between icon and text */
+  font-size: 1.4em;
+  color: var(--primary-color, #007bff);
+}
+
+.filter-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+  gap: 1.25rem; /* Gap between filter fields */
+  align-items: flex-start; /* Align items to the start of their cell */
+}
+.filter-field {
+  width: 100%; /* Make form fields take full width of their grid cell */
+}
+/* Style Angular Material form fields for better visual appeal */
+.filter-field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0; /* Remove default padding if any that causes misalignment */
+}
+.filter-field ::ng-deep .mat-form-field-infix {
+  padding-top: 0.5em; /* Adjust based on your theme */
+}
+
+.reset-filters-btn {
+  /* This button might span full width if it's the only item in the last row of the grid */
+  /* Or align it specifically if needed */
+  margin-top: 0.25rem; /* Align with form fields if they have some top margin/padding */
+  padding: 0.6rem 1rem !important; /* Ensure padding is consistent */
+  width: 100%; /* Make reset button take full width in its grid cell */
+}
+.reset-filters-btn .material-icons-outlined {
+  margin-right: 6px;
+}
+
+
+.summary-details p {
+  font-size: 0.95rem; /* Slightly smaller for compactness */
+  margin: 0.75rem 0; /* Adjusted margin */
+  color: #495057;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+.summary-details span { font-weight: 500; }
+.summary-income { color: #28a745; }
+.summary-expense { color: #dc3545; }
+.summary-savings { color: #17a2b8; }
+.summary-details hr {
+  border: 0;
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 1rem 0;
+}
+.net-flow {
+  font-size: 1.05rem;
+  font-weight: bold;
+  padding-top: 0.75rem;
+}
+.positive-flow { color: #28a745; }
+.negative-flow { color: #dc3545; }
+
+
+/* Table Section */
+.table-section {
+  margin-top: 2rem;
+}
 .table-wrapper {
-  height: 61vh;
-  overflow: auto;
-
-
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  /* box-shadow: 0 6px 18px rgba(0,0,0,0.06); */
+  max-height: 70vh; /* Or adjust as needed */
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-thead {
-  background-color: #f1f1f1;
+  border-collapse: collapse; /* Important for clean lines */
 }
 
 th, td {
-  padding: 12px;
+  padding: 1rem 1.25rem; /* Generous padding for readability */
   text-align: left;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle; /* Ensure vertical alignment */
+  white-space: nowrap; /* Prevent wrapping by default, specific columns can override */
+}
+
+thead {
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Ensure header stays above scrolling content */
+}
+
+th {
+  font-size: 0.85rem; /* Slightly smaller header text */
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* Subtle letter spacing */
+}
+.amount-col {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fdfdfd; /* Very subtle striping for even rows */
+}
+tbody tr:hover {
+  background-color: #e9ecef; /* Clearer hover state */
+}
+td {
+  color: #495057;
+  font-size: 0.9rem;
+}
+.note-cell {
+  max-width: 250px; /* Adjust as needed */
+  white-space: normal; /* Allow note to wrap */
+  overflow-wrap: break-word;
 }
 
 .badge {
-  padding: 4px 10px;
-  border-radius: 12px;
+  padding: 0.3rem 0.75rem; /* Adjusted padding */
+  border-radius: 12px; /* Pill shape */
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.75rem; /* Smaller badge text */
+  font-weight: 500;
   text-transform: capitalize;
+  display: inline-block;
+  line-height: 1.2; /* Adjust line height for badge */
 }
-
-.income {
-  background-color: #4CAF50;
-}
-
-.expense {
-  background-color: #f44336;
-}
-
-.savings {
-  background-color: #2196F3;
-}
+/* Using Bootstrap-like colors for badges */
+.income { background-color: #28a745; } /* Green */
+.expense { background-color: #dc3545; } /* Red */
+.savings { background-color: #17a2b8; } /* Teal/Info Blue */
 
 .delete-btn {
-  background: #f44336;
-  border: none;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
+  color: #dc3545 !important; /* Ensure icon color is red */
+}
+.delete-btn .material-icons-outlined {
+  font-size: 1.4em;
 }
 
+
+/* Pagination */
 .pagination {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.pagination button {
-  background: #4F4DFE;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  margin: 0 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.pagination button[disabled] {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.file-section {
-  border-top: 1px solid #5aa3ac;
-  text-align: center;
-  
-  padding-top: 1rem;
+  margin-top: 2rem; /* More space above pagination */
   display: flex;
   justify-content: center;
   align-items: center;
- 
+  padding: 1rem 0;
+  gap: 1rem;
 }
-
-.file-section h3 {
-  margin-bottom: 1rem;
-  color: #333;
+.pagination span { color: #6c757d; font-size: 0.9rem; }
+.pagination button {
+  border-radius: 6px !important;
 }
-
-input[type="file"] {
-  margin-bottom: 1rem;
-}
-
-.download-btn {
-  background-color: #4F4DFE;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 5px;
-  cursor: pointer;
+.pagination button .material-icons-outlined {
+  font-size: 1.3em;
 }
 
 
+/* File Actions Section */
+.file-actions-section {
+  margin-top: 3rem; /* More space */
+  padding-top: 2rem;
+  border-top: 1px solid #e9ecef;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Equal columns */
+  gap: 2rem; /* Increased gap */
+}
+.file-card {
+  background-color: #f8f9fa; /* Light background for these cards */
+  padding: 1.75rem;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  display: flex; /* Use flex for better internal alignment */
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  text-align: center;
+}
+.file-card h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #495057;
+  margin-top: 0;
+  margin-bottom: 1.5rem; /* Space below title */
+  display: flex;
+  align-items: center;
+}
+.file-card h3 .material-icons-outlined {
+  margin-right: 10px;
+  font-size: 1.4em;
+  color: var(--accent-color, #fd7e14); /* Example accent */
+}
+.file-card app-csv-dropzone {
+  width: 100%; /* Make dropzone take full width of its card */
+  margin-bottom: 1rem; /* Space below dropzone */
+}
+.file-card small {
+    display: block;
+    margin-top: 1rem; /* Space above the small text */
+    color: #6c757d;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+.download-csv-btn {
+    width: auto; /* Let button size naturally or set a max-width */
+    min-width: 200px;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+}
+.download-csv-btn .material-icons-outlined {
+    margin-right: 8px;
+    font-size: 1.3em;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) { /* Adjust breakpoint for controls section */
+  .controls-section {
+    grid-template-columns: 1fr; /* Stack filters and summary sooner */
+  }
+}
+
+@media (max-width: 992px) {
+  .transaction-container {
+    padding: 1.5rem;
+  }
+  .header h1 { font-size: 1.8rem; }
+  .file-actions-section {
+    grid-template-columns: 1fr; /* Stack file upload/download */
+  }
+}
+
+@media (max-width: 768px) {
+  :host { padding: 0.5rem; }
+  .transaction-container {
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  .header {
+    flex-direction: column;
+    align-items: stretch; /* Make items full width */
+    gap: 1rem;
+  }
+  .header h1 { text-align: center; }
+  .add-btn { width: 100%; }
+
+  .filter-controls {
+    grid-template-columns: 1fr; /* Stack filter inputs */
+  }
+  .reset-filters-btn {
+    grid-column: 1 / -1; /* Make reset button span full width if in grid */
+  }
+
+  .table-wrapper { max-height: none; } /* Allow table to grow on mobile */
+  th, td { padding: 0.75rem 0.5rem; white-space: normal; } /* Adjust padding, allow wrapping */
+  .note-cell { max-width: 150px; }
+
+  .pagination { flex-direction: column; gap: 0.75rem; }
+}
+
+/* Mobile Table: Card View - This part is from your previous CSS and is good for small screens */
+@media (max-width: 576px) { /* Adjusted breakpoint for card view */
+  table thead { display: none; }
+  table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  table tbody td {
+    display: flex; /* Use flex for better alignment of label and value */
+    justify-content: space-between; /* Push label and value to opposite ends */
+    text-align: right;
+    padding: 0.5rem 0; /* Adjust padding */
+    border-bottom: 1px dotted #e9ecef;
+    position: relative;
+  }
+  table tbody td:last-child { border-bottom: none; }
+  table tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+    margin-right: 1rem; /* Space between label and value */
+    color: #495057;
+  }
+  .amount-col { /* Ensure amount is still clearly an amount */
+    font-weight: bold;
+    color: #343a40;
+  }
+  .badge { margin-left: auto; /* Push badge to the right if it's alone in td::before context */ }
+}
