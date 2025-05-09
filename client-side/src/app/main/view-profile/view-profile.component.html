@@ -1,54 +1,95 @@
-<div class="profile-container">
-  <div class="profile-content">
-    <!-- Left side: Info -->
-    <div class="profile-info">
-      <!-- Email (Read-only) -->
-      <div class="info-item">
-        <label>Email</label>
-        <div class="info-value readonly">
-          {{email}}
+<div class="profile-page-container">
+  <mat-card class="profile-card">
+    <mat-card-header class="profile-card-header">
+      <img mat-card-avatar src="assets/user.jpg" alt="User Avatar" class="profile-avatar-img">
+      <mat-card-title>{{ currentUser?.userName }}</mat-card-title>
+      <mat-card-subtitle>{{ currentUser?.email }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="profile-card-content">
+      <div class="profile-main-content">
+        <form [formGroup]="profileForm" class="profile-form">
+          <h3 class="section-title">Account Information</h3>
+
+          <mat-form-field appearance="outline" class="full-width-field">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="userName" [readonly]="!isEditingName">
+            <button mat-icon-button matSuffix (click)="isEditingName ? saveProfile() : startEditing('userName')" [attr.aria-label]="isEditingName ? 'Save Username' : 'Edit Username'">
+              <mat-icon>{{ isEditingName ? 'save' : 'edit' }}</mat-icon>
+            </button>
+            <button *ngIf="isEditingName" mat-icon-button matSuffix (click)="cancelEditing('userName')" aria-label="Cancel editing username" class="cancel-button">
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <mat-error *ngIf="profileForm.get('userName')?.hasError('required')">
+              Username is required.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" [readonly]="!isEditingEmail">
+             <button mat-icon-button matSuffix (click)="isEditingEmail ? saveProfile() : startEditing('email')" [attr.aria-label]="isEditingEmail ? 'Save Email' : 'Edit Email'">
+              <mat-icon>{{ isEditingEmail ? 'save' : 'edit' }}</mat-icon>
+            </button>
+            <button *ngIf="isEditingEmail" mat-icon-button matSuffix (click)="cancelEditing('email')" aria-label="Cancel editing email" class="cancel-button">
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+              Email is required.
+            </mat-error>
+            <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+              Please enter a valid email address.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-divider class="section-divider"></mat-divider>
+
+          <div class="password-section">
+            <h3 class="section-title">Security</h3>
+            <div class="password-controls">
+              <label class="password-label">Password</label>
+              <button mat-stroked-button color="primary" (click)="togglePasswordInput()">
+                {{ showPasswordInput ? 'Cancel Change' : 'Change Password' }}
+              </button>
+            </div>
+            <div *ngIf="showPasswordInput" class="password-input-container">
+              <mat-form-field appearance="outline" class="full-width-field">
+                <mat-label>New Password</mat-label>
+                <input matInput type="password" [(ngModel)]="newPassword" [ngModelOptions]="{standalone: true}" placeholder="Enter new password">
+              </mat-form-field>
+              <button mat-raised-button color="primary" (click)="changePassword()" [disabled]="!newPassword.trim()">Save New Password</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="avatar-actions-section">
+          <div class="avatar-container">
+            <img src="assets/user.jpg" alt="Profile Image" class="main-avatar-img" />
+            <button mat-flat-button color="accent" class="edit-avatar-btn" (click)="editAvatar()">
+              <mat-icon>photo_camera</mat-icon>
+              <span>Edit Avatar</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Username (Editable) -->
-      <div class="info-item">
-        <label>Username</label>
-        <div class="info-value">
-          <input
-            type="text"
-            [value]="userName"
-            *ngIf="isEditingName"
-            (blur)="stopEditingName()"
-            (input)="userName = $any($event.target).value"
-          />
-          <span *ngIf="!isEditingName">{{ userName }}</span>
-          <i class="edit-icon" (click)="startEditingName()">✎</i>
-        </div>
-      </div>
+      <mat-divider class="section-divider"></mat-divider>
 
-      <!-- Password -->
-      <div class="info-item">
-        <label>Password</label>
-        <div class="info-value">
-          <button class="change-btn" (click)="togglePasswordInput()">
-            {{ showPasswordInput ? 'Cancel' : 'Change' }}
+      <div class="profile-actions">
+          <button mat-raised-button color="primary" (click)="saveProfile()" [disabled]="isLoading || (!isEditingName && !isEditingEmail)">
+            <mat-icon *ngIf="!isLoading">save</mat-icon>
+            <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="20"></mat-progress-spinner>
+            {{ isLoading ? 'Saving...' : 'Save All Changes' }}
           </button>
-        </div>
-        <div *ngIf="showPasswordInput" class="password-input">
-          <input
-            type="password"
-            [(ngModel)]="newPassword"
-            placeholder="Enter new password"
-          />
-          <button (click)="changePassword()">Save</button>
-        </div>
+          <button mat-stroked-button color="warn" (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            Logout
+          </button>
       </div>
-    </div>
 
-    <!-- Right side: Avatar -->
-    <div class="profile-avatar">
-      <img src="user.jpg" alt="Profile Image" />
-      <button class="edit-avatar" (click)="editAvatar()">Edit Avatar</button>
+    </mat-card-content>
+    <div *ngIf="isLoading" class="loading-overlay">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
     </div>
-  </div>
+  </mat-card>
 </div>

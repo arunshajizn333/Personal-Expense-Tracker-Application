@@ -1,7 +1,8 @@
+// src/app/main/main.module.ts
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common'; // CurrencyPipe is already part of CommonModule
-import { FormsModule } from '@angular/forms'; // For ngModel
-import { HttpClientModule } from '@angular/common/http'; // For TransactionService
+import { CommonModule, CurrencyPipe, TitleCasePipe } from '@angular/common'; // Added TitleCasePipe
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
@@ -17,17 +18,22 @@ import { CsvDropzoneComponent } from './view-transactions/csv-dropzone/csv-dropz
 // Angular Material Modules
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Keep for other uses or if you want to use it here
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
-// MatDatepickerModule and MatNativeDateModule would be needed if you use matDatepicker
-// For now, the native HTML5 date input is used, which doesn't require these.
+import { MatTableModule } from '@angular/material/table'; // <-- Import MatTableModule
 
 import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2-charts';
-import { SharedModule } from '../shared/shared.module'; // Assuming AddTransactionModalComponent is here
+import { SharedModule } from '../shared/shared.module'; // If you have one
+// import { TransactionService } from '../services/transaction.service'; // Service is providedIn: 'root'
+
+import { ReactiveFormsModule } from '@angular/forms'; // Add this
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Add this
+import { MatCardModule } from '@angular/material/card'; // For the new design
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -38,35 +44,35 @@ import { SharedModule } from '../shared/shared.module'; // Assuming AddTransacti
     ViewProfileComponent,
     ViewTransactionsComponent,
     MonthlyCatagoryChartComponent,
-    RecentOrdersComponent,
+    RecentOrdersComponent, // Ensure it's declared
     CsvDropzoneComponent,
-    // AddTransactionModalComponent should be declared in SharedModule or its own module if used there
   ],
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule, // Add HttpClientModule here if TransactionService is primarily used within MainModule
-                     // or ensure it's imported in AppModule or a CoreModule.
+    HttpClientModule,
     MainRoutingModule,
-    SharedModule, // This should export any components/modules needed, like AddTransactionModalComponent
-
-    // Angular Material Modules
+    SharedModule, // If used
     MatButtonModule,
-    MatIconModule, // Already present, but good to keep in this block
-    MatProgressSpinnerModule,
+    MatIconModule,
+    MatProgressSpinnerModule, // Now used in recent-orders.component
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
     MatDialogModule,
-
-    // ng2-charts
+    MatTableModule,         // <-- Add MatTableModule here
     BaseChartDirective,
-    // CurrencyPipe is part of CommonModule, no need to import separately if CommonModule is imported.
+    ReactiveFormsModule, // Add this
+    MatSnackBarModule,   // Add this
+    MatCardModule,       // Add this
+    MatDividerModule,    // Add this
   ],
   providers: [
     provideCharts(withDefaultRegisterables()),
-    // CurrencyPipe can be provided here if not relying on CommonModule's export, but it's usually not necessary.
+    CurrencyPipe, // If you use it directly in templates, it's good to have it here
+    TitleCasePipe // For {{ transaction.type | titlecase }}
+    // TransactionService is already providedIn: 'root'
   ],
 })
 export class MainModule {}

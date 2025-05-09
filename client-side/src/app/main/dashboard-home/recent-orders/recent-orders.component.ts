@@ -1,81 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/main/dashboard-home/recent-orders/recent-orders.component.ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TransactionService } from '../../../services/transaction.service'; // Adjust path if necessary
+import { Transaction } from '../../../models/transaction';      // Adjust path if necessary
+import { Subject, of } from 'rxjs'; // Added 'of' for catchError
+import { takeUntil, map, tap, catchError, finalize } from 'rxjs/operators'; // Added necessary RxJS operators
 
 @Component({
   selector: 'app-recent-orders',
-  standalone: false,
+  standalone :false,
   templateUrl: './recent-orders.component.html',
-  styleUrl: './recent-orders.component.css'
+  styleUrls: ['./recent-orders.component.css']
 })
-export class RecentOrdersComponent implements OnInit {
-  transactions = [
-    {
-      _id: "68161ea70508fbeee83f14dc",
-      type: "expense",
-      amount: 60,
-      mode: "card",
-      category: "Entertainment",
-      date: new Date("2025-05-06T21:00:00.000Z"),
-      note: "Movie ticket"
-    },
-    {
-      _id: "68161eb90508fbeee83f14df",
-      type: "expense",
-      amount: 75,
-      mode: "cash",
-      category: "Transport",
-      date: new Date("2025-05-06T09:30:00.000Z"),
-      note: "Daily commute"
-    },
-    {
-      _id: "68161ec50508fbeee83f14e1",
-      type: "income",
-      amount: 200,
-      mode: "upi",
-      category: "Cashback",
-      date: new Date("2025-05-05T16:00:00.000Z"),
-      note: "UPI offer"
-    },
-    {
-      _id: "681b0115faa741aaebe0ef1f",
-      type: "expense",
-      amount: 300,
-      mode: "cash",
-      category: "Groceries",
-      date: new Date("2025-05-02T17:30:00.000Z"),
-      note: "Vegetables and snacks"
-    },
-    {
-      _id: "681b01729ba658bc63c9c870",
-      type: "savings",
-      amount: 800,
-      mode: "upi",
-      category: "Investments",
-      date: new Date("2025-05-05T18:00:00.000Z"),
-      note: "Mutual fund SIP"
-    }
-  ];
+export class RecentOrdersComponent implements OnInit, OnDestroy {
+  recentTransactions: Transaction[] = [];
+  isLoading: boolean = true;
+  error: string | null = null; // This property is used in your template
+  displayedColumns: string[] = ['date', 'category', 'type', 'amount', 'note']; // This property is used in your template
 
-  // Store only the recent 2-3 transactions
-  recentTransactions :any[] = [];
+  private destroy$ = new Subject<void>();
 
-  ngOnInit() {
-    // Sort the transactions by date, descending, and pick the most recent 3 transactions
-    this.recentTransactions = this.transactions
-      .sort((a, b) => b.date.getTime() - a.date.getTime())
-      .slice(0, 3);
+  constructor(private transactionService: TransactionService) {}
+
+  ngOnInit(): void {
+    this.fetchRecentTransactions();
   }
 
-  // Helper method to get the correct class for status (expense, income, savings)
-  getStatusClass(type: string) {
-    switch (type) {
+  fetchRecentTransactions(): void {
+    this.isLoading = true;
+    this.error = null; // Reset error state on new fetch
+
+    this.transactionService.getTransactions()
+      .pipe(
+        takeUntil(this.destroy$), // Unsubscribe when component is destroyed
+        map((transactions: Transaction[]): Transaction[] => { // Explicitly type 'transactions'
+          // First, ensure date strings are converted to Date objects
+          return transactions.map((tx: Transaction) => ({ // Explicitly type 'tx'
+            ...tx,
+            date: new Date(tx.date) // Convert string date to Date object
+          }));
+        }),
+        map((processedTransactions: Transaction[]) => { // Explicitly type 'processedTransactions'
+          // Sort transactions by date (now Date objects) and take the top 3
+          return processedTransactions
+            .sort((a: Transaction, b: Transaction) => { // Explicitly type 'a' and 'b'
+                // Ensure 'date' is treated as a Date object for getTime()
+                const dateA = (a.date instanceof Date) ? a.date.getTime() : new Date(a.date).getTime();
+                const dateB = (b.date instanceof Date) ? b.date.getTime() : new Date(b.date).getTime();
+                return dateB - dateA;
+            })
+            .slice(0, 3);
+        }),
+        tap((finalTransactions: Transaction[]) => { // Explicitly type 'finalTransactions'
+          this.recentTransactions = finalTransactions;
+        }),
+        catchError((err: any) => { // Explicitly type 'err'
+          console.error('Error fetching recent transactions:', err);
+          this.error = 'Failed to load recent transactions. Please try again.';
+          this.recentTransactions = []; // Clear transactions on error
+          return of([]); // Return an empty array observable to allow the stream to complete
+        }),
+        finalize(() => {
+          this.isLoading = false; // Ensure loading is set to false whether success or error
+        })
+      )
+      .subscribe(); // Minimal subscribe as logic is in the pipe
+      // If you need to do something specific on next/error beyond what's in pipe:
+      // .subscribe({
+      //   next: (data) => { /* console.log('Subscription next:', data); */ },
+      //   error: (err) => { /* console.log('Subscription error handled by catchError'); */ }
+      // });
+  }
+
+  getStatusClass(type: string): string {
+    switch (type?.toLowerCase()) {
       case 'expense':
-        return 'warning';
+        return 'status-warning';
       case 'income':
-        return 'success';
+        return 'status-success';
       case 'savings':
-        return 'primary';
+        return 'status-primary';
       default:
         return '';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
