@@ -1,74 +1,74 @@
-<div class="insights">
-    <!-- Sales -->
-    <div class="sales">
-      <span class="material-symbols-sharp">trending_up</span>
+<div *ngIf="isLoading; else content" class="loading-indicator">
+  <p>Loading dashboard data...</p>
+  </div>
+
+<ng-template #content>
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadAnalyticsData()">Retry</button>
+  </div>
+
+  <div class="insights" *ngIf="!errorMessage">
+    <div class="sales"> <span class="material-symbols-sharp">trending_up</span>
       <div class="middle">
         <div class="left">
           <h3>Total Income</h3>
-          <h1>{{ totalIncome | currency }}</h1> <!-- Using currency pipe here -->
+          <h1>{{ totalIncome | currency:'INR':'symbol':'1.2-2' }}</h1>
         </div>
         <div class="progress">
           <svg>
-            <circle r="30" cy="40" cx="40"></circle>
+            <circle r="30" cy="40" cx="40" [style.stroke-dasharray]="188.5" [style.stroke-dashoffset]="getCircleDashOffset(incomeProgress)"></circle>
           </svg>
-          <div class="number"><p>80%</p></div>
+          <div class="number"><p>{{ incomeProgress }}%</p></div>
         </div>
       </div>
-      <small>Last 24 Hours</small>
-    </div>
-  
-    <!-- Expenses -->
+      <small>Current Month</small> </div>
+
     <div class="expenses">
       <span class="material-symbols-sharp">local_mall</span>
       <div class="middle">
         <div class="left">
           <h3>Total Expenses</h3>
-          <h1>{{ totalExpenses | currency }}</h1> <!-- Using currency pipe here -->
+          <h1>{{ totalExpenses | currency:'INR':'symbol':'1.2-2' }}</h1>
         </div>
         <div class="progress">
           <svg>
-            <circle r="30" cy="40" cx="40"></circle>
+            <circle r="30" cy="40" cx="40" [style.stroke-dasharray]="188.5" [style.stroke-dashoffset]="getCircleDashOffset(expensesProgress)"></circle>
           </svg>
-          <div class="number"><p>65%</p></div>
+          <div class="number"><p>{{ expensesProgress }}%</p></div>
         </div>
       </div>
-      <small>Last 24 Hours</small>
+      <small>Current Month</small>
     </div>
-  
-    <!-- Income -->
-    <div class="income">
-      <span class="material-symbols-sharp">stacked_line_chart</span>
-      <div class="middle">
+
+    <div class="income"> <span class="material-symbols-sharp">savings</span> <div class="middle">
         <div class="left">
           <h3>Total Savings</h3>
-          <h1>{{ totalSavings | currency }}</h1> <!-- Using currency pipe here -->
+          <h1>{{ totalSavings | currency:'INR':'symbol':'1.2-2' }}</h1>
         </div>
         <div class="progress">
           <svg>
-            <circle r="30" cy="40" cx="40"></circle>
+            <circle r="30" cy="40" cx="40" [style.stroke-dasharray]="188.5" [style.stroke-dashoffset]="getCircleDashOffset(savingsProgress)"></circle>
           </svg>
-          <div class="number"><p>92%</p></div>
+          <div class="number"><p>{{ savingsProgress }}%</p></div>
         </div>
       </div>
-      <small>Last 24 Hours</small>
+      <small>Current Month</small>
     </div>
-  
-    <!-- Total Balance -->
-    <div class="income">
-      <span class="material-symbols-sharp">stacked_line_chart</span>
-      <div class="middle">
+
+    <div class="balance"> <span class="material-symbols-sharp">account_balance_wallet</span> <div class="middle">
         <div class="left">
           <h3>Total Balance</h3>
-          <h1>{{ totalBalance | currency }}</h1> <!-- Using currency pipe here -->
+          <h1>{{ totalBalance | currency:'INR':'symbol':'1.2-2' }}</h1>
         </div>
         <div class="progress">
           <svg>
-            <circle r="30" cy="40" cx="40"></circle>
+            <circle r="30" cy="40" cx="40" [style.stroke-dasharray]="188.5" [style.stroke-dashoffset]="getCircleDashOffset(balanceProgress)"></circle>
           </svg>
-          <div class="number"><p>92%</p></div>
+          <div class="number"><p>{{ balanceProgress }}%</p></div>
         </div>
       </div>
-      <small>Last 24 Hours</small>
+      <small>Current Month</small>
     </div>
   </div>
-  
+</ng-template>

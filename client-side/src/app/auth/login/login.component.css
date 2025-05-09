@@ -1,197 +1,332 @@
-.main{
+/* Import a modern font (optional, ensure it's linked in your project) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.main {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Use min-height for flexibility */
   overflow: hidden;
-  background-color: #eed4d6;
+  background-color: #cbdef7; /* signup page background */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'Arial', sans-serif; /* Modern font from signup */
 }
 
-.login-container {
-    display: flex;
-    max-width: 900px;
-    margin: 50px auto;
-    background-color: #ebe1e1;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden; /* Ensures the border-radius applies to child elements */
-    font-family: 'Arial', sans-serif;
-  }
+.login-container { /* Adapted from .signup-container */
+  display: flex;
+  width: 100%;
+  max-width: 850px; /* From signup-container */
+  margin: 20px auto; /* From signup-container */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* From signup-container */
+  border-radius: 12px; /* From signup-container */
+  overflow: hidden;
+  background-color: #fff; /* From signup-container */
+}
+
+.login-form-container { /* Adapted from .signup-form-container */
+  flex: 1.2; /* Give slightly more space to the form - from signup */
+  padding: 35px 40px; /* More padding - from signup */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center form content vertically */
+  align-items: center; /* Align items to center like original login, but can be left if preferred */
+  text-align: center; /* Or 'left' if you prefer inputs aligned left like signup */
+}
+
+.login-form-container h2 { /* Adapted from .signup-form-container h2 */
+  margin-bottom: 20px; /* Original login had 20px, signup had 10px, adjust as preferred */
+  color: #2c3e50; /* Darker, more professional blue - from signup */
+  font-weight: 600; /* Slightly bolder - from signup */
+  font-size: 26px; /* Larger heading - from signup */
+  text-align: center;
+}
+
+.social-login {
+  margin-bottom: 20px; /* Original login had 20px, signup had 25px for the button */
+  display: flex; /* To arrange buttons if you add more */
+  justify-content: center; /* Center buttons */
+  gap: 10px; /* Space between buttons */
+  width: 100%;
+  max-width: 320px; /* Max width like form inputs */
+}
+.social-login button{
+  margin-bottom: 25px;
+  width: 100%;
+  border: .5px solid #fed8d8;
+  border-radius: 15px;
+}
+
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 18px; /* Increased padding */
+  border-radius: 6px;
+  font-size: 15px; /* Slightly larger font */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid #dfe6e9; /* Lighter border */
+  background-color: #fff;
+  color: #34495e; /* Darker text for better contrast */
+  margin-bottom: 10px;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px); /* Slight lift on hover - from signup */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* From signup */
+  background-color: #f8f9fa; /* Very light grey for hover */
+}
+
+.social-btn .fab {
+  margin-right: 0; /* Remove margin if only icon */
+  font-size: 18px; /* From signup */
   
-  .login-form-container {
-    flex: 1;
-    padding: 40px;
-    display: flex;
+}
+
+/* If you want text with social buttons similar to signup's Google button:
+.social-btn.google {
+  color: #4285F4;
+}
+.social-btn.google:hover {
+  border-color: #d2e3fc;
+}
+.social-btn.facebook { color: #3b5998; }
+.social-btn.linkedin { color: #0e76a8; }
+*/
+
+
+.login-form-container > span { /* For "or use your account" */
+  font-size: 13px; /* From signup .divider span */
+  font-weight: 500; /* From signup .divider span */
+  color: #bdc3c7; /* Lighter divider color - from signup */
+  margin-bottom: 20px;
+  display: block; /* Make it a block to take full width for centering */
+  text-align: center;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 320px; /* Consistent width */
+  margin-bottom: 18px; /* More space between form groups - from signup */
+  text-align: left;
+  position: relative;
+}
+
+.form-control { /* Adapted from signup .form-control */
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dcdfe6; /* Slightly darker, more defined border */
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #fdfdff; /* Off-white background */
+  font-size: 15px;
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #a0aec0; /* Softer placeholder color - from signup */
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3498db; /* Budgetlee primary color (example: blue) - from signup */
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); /* Focus ring - from signup */
+  background-color: #fff;
+}
+
+.forgot-password {
+  display: block;
+  font-size: 13px; /* Adjusted for consistency */
+  color: #3498db; /* Use theme color */
+  text-decoration: none;
+  margin-bottom: 20px;
+  margin-top: -5px; /* Adjust spacing */
+  text-align: right; /* Align to the right below password */
+  max-width: 320px;
+  width: 100%;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: #2980b9; /* Darker theme color on hover */
+}
+
+.btn { /* General button style from signup */
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600; /* Bolder button text */
+  letter-spacing: 0.3px; /* Reduced letter spacing */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease-in, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 320px; /* Consistent width */
+  margin-top: 10px;
+}
+
+.btn:active {
+  transform: scale(0.98) translateY(1px); /* More subtle active state */
+}
+
+.sign-in-btn { /* Adapted from .sign-up-btn in signup */
+  background-color: #3498db; /* Budgetlee primary color (example: blue) */
+  color: white;
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+}
+
+.sign-in-btn:hover {
+  background-color: #2980b9; /* Darker shade for hover */
+  box-shadow: 0 6px 12px rgba(41, 128, 185, 0.3);
+}
+
+.info-container { /* Adapted from .info-container-signup */
+  flex: 0.8; /* Slightly less space than the form - from signup */
+  background: linear-gradient(135deg, #3a7bd5, #3a6073); /* Example: Professional blue gradient - from signup */
+  color: white;
+  padding: 35px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.info-container h2 { /* Adapted from .info-container-signup h2 */
+  margin-bottom: 18px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.info-container p { /* Adapted from .info-container-signup p */
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  max-width: 90%;
+}
+
+.sign-up-btn { /* This is the button in the info-container, style it like an outline button */
+  background-color: transparent;
+  border: 1px solid white; /* Or #3498db if against a light background */
+  color: white; /* Or #3498db */
+  box-shadow: none; /* Remove shadow if it's an outline button */
+}
+
+.sign-up-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Light hover for dark background */
+  /* or for light background: background-color: #f0f0f0; */
+  border-color: white; /* Or #2980b9 */
+}
+
+
+.invalid-feedback { /* From signup */
+  color: #e74c3c; /* Brighter red for errors */
+  font-size: 0.875em; /* 14px if base is 16px */
+  font-weight: 500; /* Slightly bolder error text */
+  margin-top: 6px; /* More space above error message */
+  display: block;
+  text-align: left; /* Ensure errors align with input fields */
+}
+
+.form-control.is-invalid { /* More specific selector for border - from signup */
+  border-color: #e74c3c !important;
+  background-color: #fceded; /* Very light pink background for invalid fields */
+}
+
+.form-control.is-invalid:focus {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* Responsive adjustments - Copied from signup and adapted for login classes */
+@media (max-width: 768px) {
+  .login-container {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    width: 95%;
+    max-width: 500px;
+    margin: 20px auto;
   }
-  
-  .login-form-container h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .social-login {
-    margin-bottom: 20px;
-  }
-  
-  .social-btn {
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 5px;
-    height: 40px;
-    width: 40px;
-    background-color: #fff;
-    color: #555;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .social-btn:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .social-btn .fab {
-    font-size: 18px;
-  }
-  
-  .login-form-container span {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    width: 100%;
-    max-width: 300px; /* Limit width of form inputs */
-    margin-bottom: 15px;
-    text-align: left; /* Align text inside form-group to the left */
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    background-color: #f7f7f7;
-    font-size: 14px;
-  }
-  
-  .form-control:focus {
-    outline: none;
-    border-color: #ff4b2b; /* Example focus color */
-    background-color: #fff;
-  }
-  
-  .forgot-password {
-    display: block;
-    font-size: 12px;
-    color: #555;
-    text-decoration: none;
-    margin-bottom: 20px;
-    margin-top: 5px; /* Added margin for spacing */
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  
-  .btn {
-    padding: 12px 45px;
-    border: none;
-    border-radius: 25px;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 0.1s ease-in;
-  }
-  
-  .btn:active {
-      transform: scale(0.95);
-  }
-  
-  .sign-in-btn {
-    background-color: #ff4b2b; /* Orange-red color from image */
-    color: white;
-  }
-  
-  .sign-in-btn:hover {
-    background-color: #e04324;
-  }
-  
+
+  .login-form-container,
   .info-container {
     flex: 1;
-    background: linear-gradient(to right, #ff4b2b, #ff416c); /* Gradient from image */
-    color: white;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    padding: 25px;
+    border-radius: 0; /* Remove individual border-radius when stacked */
   }
-  
-  .info-container h2 {
-    margin-bottom: 15px;
-    font-weight: bold;
+
+  .login-form-container {
+      border-top-left-radius: 12px; /* Keep top corners rounded for the first item */
+      border-top-right-radius: 12px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
   }
-  
-  .info-container p {
+
+  .info-container {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 12px; /* Keep bottom corners for the last item */
+    border-bottom-right-radius: 12px;
+    min-height: 250px;
+  }
+
+  .login-form-container h2 { font-size: 22px; }
+  .info-container h2 { font-size: 20px; }
+  .info-container p { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .main { padding: 15px; }
+  .login-form-container,
+  .info-container {
+    padding: 20px;
+  }
+
+  .social-btn,
+  .btn,
+  .form-control {
     font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    max-width: 300px;
+    padding: 10px 15px;
   }
-  
-  .sign-up-btn {
-    background-color: transparent;
-    border: 1px solid white;
-    color: white;
+  .social-btn { padding: 10px; } /* Keep padding for icon buttons */
+
+  .login-form-container h2 { font-size: 20px; }
+  .info-container p { font-size: 13px; }
+}
+
+/* ... (all your existing themed styles from previous step) ... */
+
+.server-error-message {
+  color: #e74c3c; /* Brighter red for errors - consistent with .invalid-feedback */
+  background-color: #fceded; /* Optional: Light pink background for more emphasis */
+  border-radius: 6px; /* Match form control radius */
+  padding: 6px 6px; /* Some padding */
+  margin-bottom:5px; /* Space before the login button */
+  font-size: 0.7em; /* Slightly smaller text */
+  font-weight: 500;
+  text-align: center; /* Center the text */
+  width: 100%;
+  max-width: 320px; /* Match form input width */
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments (ensure this is within the correct media query if needed) */
+@media (max-width: 480px) {
+  .server-error-message {
+    font-size: 0.85em;
+    padding: 8px 10px;
   }
-  
-  .sign-up-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .invalid-feedback {
-    color: #dc3545; /* Standard Bootstrap error color */
-    font-size: 0.875em; /* Slightly smaller than normal text */
-    margin-top: .25rem;
-    display: block; /* Make sure it's visible */
-  }
-  
-  .is-invalid {
-    border-color: #dc3545 !important; /* Ensure error border color takes precedence */
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .login-container {
-      flex-direction: column;
-      margin: 20px;
-    }
-  
-    .login-form-container,
-    .info-container {
-      border-radius: 0; /* Remove border-radius for stacked view */
-    }
-  
-    .info-container {
-      /* Adjust order for mobile if desired using order property */
-      /* order: -1; */ /* This would put the info container on top */
-      padding: 30px 20px;
-    }
-  
-    .login-form-container {
-      padding: 30px 20px;
-    }
-  }
+}
+
+.social-btn img {
+  width: 20px; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+  margin-right: 10px; /* Space between logo and text, adjust as needed */
+  vertical-align: middle; /* Helps align the image nicely with the button text */
+ 
+}

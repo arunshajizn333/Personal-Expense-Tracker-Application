@@ -29,7 +29,7 @@ const materialModules = [
 
 @NgModule({
   declarations: [
-    AddTransactionModalComponent
+    AddTransactionModalComponent,
   ],
   imports: [
    

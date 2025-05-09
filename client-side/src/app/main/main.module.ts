@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -11,10 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MonthlyCatagoryChartComponent } from './dashboard-home/monthly-catagory-chart/monthly-catagory-chart.component';
 import { RecentOrdersComponent } from './dashboard-home/recent-orders/recent-orders.component';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { BaseChartDirective } from 'ng2-charts'; // Ensure this is imported correctly
 import { FormsModule } from '@angular/forms';
 import { CsvDropzoneComponent } from './view-transactions/csv-dropzone/csv-dropzone.component'; 
 import { SharedModule } from '../shared/shared.module';
+import { BaseChartDirective } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -33,9 +34,12 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     MainRoutingModule,
     MatIconModule,
-    BaseChartDirective,
-    SharedModule 
+    SharedModule,
+    BaseChartDirective ,
+    CurrencyPipe
   ],
-  providers: [provideCharts(withDefaultRegisterables())],  // Ensure this is configured correctly
+  providers: [
+    provideCharts(withDefaultRegisterables()), // ✅ Keep this
+  ],
 })
 export class MainModule {}

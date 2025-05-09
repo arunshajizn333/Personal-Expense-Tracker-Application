@@ -3,9 +3,9 @@
     <div class="login-form-container">
       <h2>Sign in</h2>
       <div class="social-login">
-        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
-        <button class="social-btn google"><i class="fab fa-google-plus-g"></i></button>
-        <button class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></button>
+        <button (click)="signUpWithGoogle()" class="social-btn google-btn">
+          <img src="google.png" alt="Google logo" /> Sign in with Google
+        </button>
       </div>
       <span>or use your account</span>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -39,13 +39,17 @@
           </div>
         </div>
         <a href="#" class="forgot-password">Forgot your password?</a>
+
+        <div *ngIf="loginError" class="server-error-message">
+          {{ loginError }}
+        </div>
         <button type="submit" class="btn btn-primary sign-in-btn">SIGN IN</button>
       </form>
     </div>
     <div class="info-container">
-      <h2>Hi There!</h2>
-      <p>Enter your personal details to open an account with us</p>
-      <button class="btn btn-secondary sign-up-btn">SIGN UP</button>
+      <h2>Welcome Back!</h2>
+      <p>Don't have an account,<br> open now</p>
+      <button class="btn btn-secondary sign-up-btn" routerLink="/auth/signup">SIGN UP</button>
     </div>
   </div>
 </div>  

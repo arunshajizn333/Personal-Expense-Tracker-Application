@@ -1,19 +1,25 @@
-<div style="display: flex; flex-direction: row; width: 100%;">
-        <div style="width: 50%; margin-right: 10px;">
-          <canvas
-            baseChart
+<div class="chart-loading-container" *ngIf="isLoading">
+  <p>Loading chart data...</p>
+  </div>
+
+<div class="chart-error-container" *ngIf="!isLoading && errorMessage">
+  <p>{{ errorMessage }}</p>
+  <button (click)="loadChartData()" class="retry-button">Retry</button>
+</div>
+
+<div class="charts-container" *ngIf="!isLoading && !errorMessage">
+  <div class="chart-card">
+    <canvas baseChart
             [data]="categoryChartData"
-            [type]="'pie'"
+            [type]="categoryChartType"
             [options]="categoryChartOptions">
-          </canvas>
-        </div>
-        <div style="width: 50%;">
-          <canvas
-            baseChart
+    </canvas>
+  </div>
+  <div class="chart-card">
+    <canvas baseChart
             [data]="monthlyChartData"
-            [type]="'bar'"
+            [type]="monthlyChartType"
             [options]="monthlyChartOptions">
-          </canvas>
-        </div>
-      </div>
-      
+    </canvas>
+  </div>
+</div>

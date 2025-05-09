@@ -1,5 +1,104 @@
-canvas {
-    width: 70% !important;
-    height: 320px !important;
+/* src/app/components/monthly-catagory-chart/monthly-catagory-chart.component.css */
+:host {
+  display: block; /* Ensures the component itself takes up block space */
+  width: 100%;
+  margin-top: 1.5rem; /* Space above the charts section */
+}
+
+.chart-loading-container,
+.chart-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  min-height: 300px; /* Ensure it takes some space */
+}
+
+.chart-error-container p {
+  color: #d9534f; /* Error color */
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  padding: 0.6rem 1.2rem;
+  background-color: #007bff; /* Primary button color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.retry-button:hover {
+  background-color: #0056b3;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: row; /* Side-by-side on larger screens */
+  gap: 1.5rem; /* Space between charts */
+  width: 100%;
+}
+
+.chart-card {
+  flex: 1 1 0px; /* Allows cards to grow and shrink equally, starting from 0 basis */
+  min-width: 300px; /* Minimum width before wrapping or becoming too small */
+  background-color: #ffffff;
+  border-radius: 12px; /* Softer corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  padding: 1.5rem; /* Inner spacing */
+  /*
+   * IMPORTANT for ng2-charts and responsiveness:
+   * The canvas element itself will be responsive if its parent has a defined size.
+   * We give the parent (chart-card) flexibility and then ensure the canvas
+   * can fill it. The height is crucial.
+  */
+  height: 400px; /* Or your desired fixed height for the chart area */
+  /* Or use aspect-ratio if you prefer:
+     aspect-ratio: 16 / 10; (or any other ratio)
+     This might require Chart.js options 'maintainAspectRatio: true' and careful handling.
+     For simplicity, fixed height is often easier if maintainAspectRatio is false.
+  */
+  display: flex; /* To help center canvas if needed or manage its size */
+  flex-direction: column; /* If you add a title directly in HTML inside chart-card */
+}
+
+.chart-card canvas {
+  /*
+    With Chart.js options responsive:true and maintainAspectRatio:false,
+    the canvas will try to fill its parent.
+    The width and height attributes on the canvas tag are used for the initial render
+    but Chart.js will resize it.
+    Avoid setting width/height with !important here unless absolutely necessary.
+  */
+  max-width: 100%;
+  max-height: 100%; /* Ensure canvas doesn't overflow chart-card if its content is larger */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) { /* Adjust breakpoint as needed (e.g., for tablets) */
+  .charts-container {
+    flex-direction: column; /* Stack charts vertically */
   }
-  
+
+  .chart-card {
+    min-width: auto; /* Allow it to take full width when stacked */
+    /* You might want to adjust height for stacked view if 400px is too much for each */
+    /* height: 350px; */
+  }
+}
+
+@media (max-width: 576px) { /* Adjust for smaller mobile screens */
+  .chart-card {
+    padding: 1rem; /* Reduce padding on very small screens */
+    height: 320px; /* Potentially smaller height */
+  }
+  /* You might want to adjust font sizes in chart options for very small screens
+     or hide legends if space is too tight. This usually requires more complex
+     dynamic updates to chart options based on screen size. */
+}

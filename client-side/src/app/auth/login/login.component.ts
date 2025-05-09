@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // Use definite assignment assertion
   submitted = false;
+  loginError: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,7 +48,20 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         console.error('Login failed', err);
-        alert('Invalid credentials or server error.');
+        if (err.status === 401 || err.status === 400) { // Common statuses for bad credentials
+          this.loginError = 'Invalid email or password';
+      } else {
+          this.loginError = 'Login failed due to a server error. Please try again later.';
       }
-    });
-}}
+      }
+    }
+  );
+}
+signUpWithGoogle(): void {
+  console.log('Sign up with Google initiated');
+  // Implement your Google Sign-Up logic here, likely involving the AuthService
+  // For example: this.authService.signUpWithGoogle().subscribe(...);
+  alert('Google Sign-Up: Integration pending. See console for details.');
+}
+
+}
