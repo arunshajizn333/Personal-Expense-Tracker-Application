@@ -30,6 +30,13 @@ body {
   margin-bottom: 2rem;
 }
 
+.top h2 {
+  margin: 0;
+  font-size: 1.8rem; /* Slightly larger heading */
+  font-weight: 600;
+  color: #0a315d; /* Use primary color (#1565C0) */
+}
+
 .actions {
   display: flex;
   gap: 1rem;
@@ -64,13 +71,18 @@ body {
 }
 
 .add-btn {
-  padding: 0.5rem 1rem;
-  background-color: var(--clr-success);
-  color: white;
+   display: flex; /* Use flex to align icon and text */
+  align-items: center;
+  gap: 8px; /* Space between icon and text (padding-sm = 8px) */
+  padding: 8px 16px; /* Padding (padding-sm = 8px, padding-md = 16px) */
+  background-color: #4CAF50; /* Success color (#4CAF50) */
+  color: #fff; /* White (#fff) */
   border: none;
-  border-radius: 6px;
+  border-radius: 8px; /* border-radius = 8px */
   font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* box-shadow-subtle */
 }
 
 .add-btn:hover {

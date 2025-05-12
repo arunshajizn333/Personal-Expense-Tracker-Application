@@ -5,7 +5,13 @@
   </aside>
 
   <div class="main-content">
-    
+    <header class="main-header">
+       <button class="sidebar-toggle-button" (click)="toggleSideMenu()">
+         <mat-icon>menu</mat-icon>
+       </button>
+       <h2>My Expense Tracker</h2>
+    </header>
+
     <div class="content-area">
        <router-outlet></router-outlet>
     </div>

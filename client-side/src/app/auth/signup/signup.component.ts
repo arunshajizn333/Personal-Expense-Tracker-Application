@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +63,7 @@ export class SignupComponent implements OnInit {
       next: (res) => {
         console.log('Signup success:', res);
         // Optionally display a success message to the user
-        alert('Signup successful! Please login.'); // Or use a more sophisticated notification
+        this.snackBar.open('Signup successful! Please login.', 'Close', { duration: 3000 });
         this.router.navigate(['/auth/login']); // Navigate to login
       },
       error: (err) => {
@@ -78,6 +80,6 @@ export class SignupComponent implements OnInit {
     console.log('Sign up with Google initiated');
     // Implement your Google Sign-Up logic here, likely involving the AuthService
     // For example: this.authService.signUpWithGoogle().subscribe(...);
-    alert('Google Sign-Up: Integration pending. See console for details.');
+    this.snackBar.open('Integration pending. See console for details.', 'Close', { duration: 3000 });
   }
 }

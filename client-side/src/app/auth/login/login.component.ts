@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private sessionService: SessionService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +46,9 @@ export class LoginComponent implements OnInit {
         // Save token to localStorage
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
+
+        // Call startSession after successful login
+      this.sessionService.startSession(res.token, res.user);
   
         // Navigate to dashboard or other route
         this.router.navigate(['/dashboard']);
@@ -61,7 +68,8 @@ signUpWithGoogle(): void {
   console.log('Sign up with Google initiated');
   // Implement your Google Sign-Up logic here, likely involving the AuthService
   // For example: this.authService.signUpWithGoogle().subscribe(...);
-  alert('Google Sign-Up: Integration pending. See console for details.');
+    this.snackBar.open('Integration pending. See console for details.', 'Close', { duration: 3000 });
 }
+
 
 }

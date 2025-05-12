@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // For reac
 import { UserService, User } from '../../services/user.service'; // Adjust path as needed
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar'; // For notifications
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-profile',
@@ -29,7 +30,8 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.profileForm = this.fb.group({
       userName: ['', Validators.required],
@@ -181,7 +183,14 @@ export class ViewProfileComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.userService.logout();
+    // Navigate to the login page
+    this.router.navigate(['/auth/login']); // Navigate to your login route
+  
+    
+    // Remove user data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    // You might also want to clear any in-memory state if you have it
     this.snackBar.open('You have been logged out.', 'Close', { duration: 3000 });
   }
 }

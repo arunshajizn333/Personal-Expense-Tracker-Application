@@ -19,6 +19,7 @@ body {
   gap: 16px; /* Space between sidebar and main content */
   min-height: 100vh; /* Ensure container takes full viewport height */
   transition: grid-template-columns 0.3s ease; /* Smooth transition on collapse */
+  
 }
 
 /* --- Sidebar Styling --- */
@@ -50,7 +51,7 @@ body {
 /* --- Main Content Styling --- */
 .main-content {
   padding: 12px 16px; /* Padding */
-  background-color: #f0f0f0; /* Light background for content area */
+  background-color: #d5effd; /* Light background for content area */
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   overflow-y: auto; /* Allow main content area to scroll */
@@ -74,7 +75,7 @@ body {
 
 .main-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #0D47A1;
 }
 
@@ -174,78 +175,7 @@ body {
 }
 
 /* ... (rest of media queries) ... */
-@media (max-width: 768px) { /* Tablets and Phones */
-  .container {
-    grid-template-columns: 1fr; /* Stack main content to full width */
-    gap: 0; /* Remove gap */
-    /* Ensure container takes at least viewport height on mobile */
-     min-height: 100vh;
-  }
 
-  .sidebar {
-    position: fixed; /* Fixed position for overlay */
-    left: 0;
-    top: 0;
-    width: 70vw; /* Take up 70% of viewport width */
-    max-width: 250px; /* Max width on larger screens */
-    height: 100vh;
-    transform: translateX(-100%); /* Hide sidebar by default */
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); /* Stronger shadow for overlay */
-    z-index: 101; /* Above backdrop */
-  }
-
-  /* Sidebar is NOT hidden class on mobile when visible */
-   .sidebar:not(.hidden) {
-       transform: translateX(0); /* Show the sidebar */
-   }
-
-  .sidebar.hidden {
-      /* transform: translateX(-100%); This is the default hidden state */
-      pointer-events: auto; /* Re-enable pointer events when visible */
-      opacity: 1; /* Keep opacity */
-  }
-
-
-  .main-content {
-    padding: 12px; /* Adjust padding */
-    /* REMOVED: height: calc(...) */
-    /* Let flex-grow manage height */
-  }
-
-   .main-header {
-       padding-bottom: 8px;
-       margin-bottom: 8px;
-   }
-
-   .main-header h2 {
-       font-size: 1.3rem;
-   }
-
-    /* Backdrop overlay when sidebar is open on mobile */
-   .backdrop {
-       position: fixed;
-       top: 0;
-       left: 0;
-       width: 100vw;
-       height: 100vh;
-       background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-       z-index: 100; /* Below sidebar, above main content */
-       animation: fadeIn 0.3s ease-in-out;
-   }
-
-   /* Hide backdrop when sidebar is collapsed */
-   .container.sidebar-collapsed .backdrop {
-       display: none;
-   }
-
-   /* Basic fade-in animation */
-   @keyframes fadeIn {
-       from { opacity: 0; }
-       to { opacity: 1; }
-   }
-
-}
 
 @media (max-width: 480px) { /* Smaller Phones */
    body {
