@@ -1,4 +1,4 @@
-// src/app/core/interceptors/loading.interceptor.ts (or a similar shared location)
+// src/app/core/interceptors/loading.interceptor.ts
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -7,9 +7,8 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { LoadingService } from '../../loading/loading.service';
- // Adjust path as needed
+import { delay, finalize } from 'rxjs/operators';
+import { LoadingService } from '../loading.service'; // Adjust path if needed
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
@@ -17,16 +16,14 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Don't show loader for specific URLs if needed
-    // if (request.url.includes('/api/silent-call')) {
-    //   return next.handle(request);
-    // }
-
-    this.loadingService.show();
+    // Start the loader
+    this.loadingService.startLoading();
 
     return next.handle(request).pipe(
+      delay(500), 
       finalize(() => {
-        this.loadingService.hide();
+        // Stop the loader when the request completes (success or error)
+        this.loadingService.stopLoading();
       })
     );
   }

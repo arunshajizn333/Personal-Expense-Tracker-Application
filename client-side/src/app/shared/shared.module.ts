@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
 
 // Component
 import { AddTransactionModalComponent } from './add-transaction-modal/add-transaction-modal.component';
+import { LoaderComponent } from './loader/loader.component';
 
 // Grouped Angular Material modules for cleaner imports
 const materialModules = [
@@ -34,6 +35,7 @@ const materialModules = [
 @NgModule({
   declarations: [
     AddTransactionModalComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,9 @@ const materialModules = [
     ...materialModules
   ],
   exports: [
-    AddTransactionModalComponent
+    AddTransactionModalComponent,
+    LoaderComponent,
+    CommonModule
   ]
 })
 export class SharedModule { }

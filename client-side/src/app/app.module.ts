@@ -6,20 +6,22 @@ import { AppComponent } from './app.component';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { LoadingComponent } from './loading/loading.component';
-import { LoadingService } from './loading/loading.service';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-    LoadingComponent
+  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CoreModule,
+    SharedModule
   
   ],
   providers: [
-    LoadingService,
     provideClientHydration(withEventReplay()),
     provideCharts(withDefaultRegisterables()),
     provideHttpClient(withInterceptorsFromDi()),
@@ -27,7 +29,13 @@ import { LoadingService } from './loading/loading.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+     {
+       provide: HTTP_INTERCEPTORS,
+       useClass: LoadingInterceptor,
+       multi: true // multi: true is still needed for multiple interceptors
     }
+
   ],
   bootstrap: [AppComponent]
 })

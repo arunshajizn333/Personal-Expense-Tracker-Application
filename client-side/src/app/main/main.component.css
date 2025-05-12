@@ -8,27 +8,27 @@ body {
   font-size: 1rem; /* Base font size */
   line-height: 1.6;
   color: #333; /* clr-dark = #333 */
-  background-color: #ccedfd; /* Light Pastel Blue (clr-background = #ccedfd) */
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  background-color: #ccedfd; /* Light Pastel Blue */
+  overflow-x: hidden; /* Prevent horizontal scroll on the body */
+  min-height: 100vh; /* Ensure body is at least viewport height */
 }
 
 .container {
   display: grid;
-  grid-template-columns: 16rem 1fr; /* Desktop grid (sidebar-width-desktop = 16rem) */
-  gap: 16px; /* Space between sidebar and main content (padding-lg = 16px) */
+  grid-template-columns: 16rem 1fr; /* Desktop grid */
+  gap: 16px; /* Space between sidebar and main content */
   min-height: 100vh; /* Ensure container takes full viewport height */
   transition: grid-template-columns 0.3s ease; /* Smooth transition on collapse */
 }
 
 /* --- Sidebar Styling --- */
 .sidebar {
-  background: linear-gradient(180deg, #c0ebff, #FFFFFF); /* Gradient (clr-secondary, clr-white) */
-  /* border-right: 1px solid #e0e0e0; Optional border (clr-grey) */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow (box-shadow-sidebar) */
-  position: sticky; /* Make sidebar sticky */
+  background: linear-gradient(180deg, #c0ebff, #FFFFFF); /* Gradient */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: sticky; /* Make sidebar sticky on desktop */
   top: 0; /* Stick to the top */
-  height: 100vh; /* Full height */
-  overflow-y: auto; /* Add scroll if content exceeds height */
+  height: 100vh; /* Full height for sticky */
+  overflow-y: auto; /* Add scroll if sidebar content exceeds height */
   transition: transform 0.3s ease; /* Smooth collapse/expand transition */
   z-index: 100; /* Ensure it's above other content */
 }
@@ -49,51 +49,55 @@ body {
 
 /* --- Main Content Styling --- */
 .main-content {
-  padding: 12px 16px; /* Padding (padding-md = 12px, padding-lg = 16px) */
-  background-color: #f0f0f0; /* Light background for content area (clr-light-grey = #f0f0f0) */
-  border-radius: 4px; /* border-radius-1 = 4px */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow (box-shadow-subtle) */
-  overflow-y: auto; /* Allow main content to scroll */
-  height: calc(100vh - 12px * 2); /* Calculate height based on padding */
-  display: flex;
-  flex-direction: column;
+  padding: 12px 16px; /* Padding */
+  background-color: #f0f0f0; /* Light background for content area */
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  overflow-y: auto; /* Allow main content area to scroll */
+  overflow-x: hidden; /* Prevent horizontal overflow inside main content */
+  /* REMOVED: height: calc(100vh - 12px * 2); */
+  display: flex; /* Make main-content a flex container */
+  flex-direction: column; /* Stack header and content-area vertically */
+  flex-grow: 1; /* Allow main-content to grow within the grid cell */
 }
 
 .main-header {
     display: flex;
     align-items: center;
-    gap: 12px; /* padding-md = 12px */
-    padding-bottom: 12px; /* Space below header (padding-md = 12px) */
-    margin-bottom: 12px; /* padding-md = 12px */
-    border-bottom: 1px solid #e0e0e0; /* Separator (clr-grey = #e0e0e0) */
+    gap: 12px;
+    padding-bottom: 12px; /* Space below header */
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0; /* Separator */
+    /* Ensure header doesn't shrink */
+    flex-shrink: 0;
 }
 
 .main-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: #0D47A1; /* clr-primary-dark = #0D47A1 */
+    color: #0D47A1;
 }
 
 .sidebar-toggle-button {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px; /* padding-sm = 8px */
-    border-radius: 4px; /* border-radius-1 = 4px */
+    padding: 8px;
+    border-radius: 4px;
     transition: background-color 0.2s ease;
 }
 
 .sidebar-toggle-button:hover {
-    background-color: #e0e0e0; /* clr-grey = #e0e0e0 */
+    background-color: #e0e0e0;
 }
 
 .sidebar-toggle-button span.material-symbols-sharp {
     font-size: 1.8rem;
-    color: #333; /* clr-dark = #333 */
+    color: #333;
 }
 
 .content-area {
-    flex-grow: 1; /* Let the content area take remaining space */
+    flex-grow: 1; /* Let the content area take all remaining vertical space */
     /* Add padding if needed within the content area itself */
 }
 
@@ -111,11 +115,71 @@ body {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
 
+/* src/app/main/main.component.css */
 
+/* ... (previous CSS code) ... */
+
+.sidebar-toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    /* Add this line to hide it by default on large screens */
+    display: none;
+}
+
+.sidebar-toggle-button:hover {
+    background-color: #e0e0e0;
+}
+
+.sidebar-toggle-button span.material-symbols-sharp {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.main-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+/* ... (rest of main-header styles) ... */
+
+
+/* --- Responsiveness --- */
+
+@media (max-width: 768px) { /* Tablets and Phones */
+  /* ... (previous media query styles) ... */
+
+   .main-content {
+     /* ... (main-content styles in media query) ... */
+   }
+
+   .main-header {
+       padding-bottom: 8px;
+       margin-bottom: 8px;
+   }
+
+    /* Make the toggle button visible on small screens */
+   .sidebar-toggle-button {
+       display: block;
+   }
+
+   /* ... (rest of media query styles) ... */
+}
+
+/* ... (rest of media queries) ... */
 @media (max-width: 768px) { /* Tablets and Phones */
   .container {
     grid-template-columns: 1fr; /* Stack main content to full width */
     gap: 0; /* Remove gap */
+    /* Ensure container takes at least viewport height on mobile */
+     min-height: 100vh;
   }
 
   .sidebar {
@@ -131,26 +195,27 @@ body {
     z-index: 101; /* Above backdrop */
   }
 
+  /* Sidebar is NOT hidden class on mobile when visible */
+   .sidebar:not(.hidden) {
+       transform: translateX(0); /* Show the sidebar */
+   }
+
   .sidebar.hidden {
-      transform: translateX(-100%); /* Ensure it's hidden */
+      /* transform: translateX(-100%); This is the default hidden state */
       pointer-events: auto; /* Re-enable pointer events when visible */
       opacity: 1; /* Keep opacity */
   }
 
-   /* Show sidebar when not collapsed (mobile) */
-  .container:not(.sidebar-collapsed) .sidebar {
-       transform: translateX(0); /* Show the sidebar */
-  }
-
 
   .main-content {
-    padding: 12px; /* Adjust padding (padding-md = 12px) */
-    height: calc(100vh - 12px * 2); /* Adjust height */
+    padding: 12px; /* Adjust padding */
+    /* REMOVED: height: calc(...) */
+    /* Let flex-grow manage height */
   }
 
    .main-header {
-       padding-bottom: 8px; /* padding-sm = 8px */
-       margin-bottom: 8px; /* padding-sm = 8px */
+       padding-bottom: 8px;
+       margin-bottom: 8px;
    }
 
    .main-header h2 {
@@ -188,7 +253,7 @@ body {
    }
 
    .main-content {
-       padding: 8px; /* padding-sm = 8px */
+       padding: 8px;
    }
 
    .main-header h2 {
@@ -203,3 +268,4 @@ body {
         width: 80vw; /* Take up more width on smaller phones */
     }
 }
+

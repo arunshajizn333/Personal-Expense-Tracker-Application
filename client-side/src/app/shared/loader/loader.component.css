@@ -1,0 +1,47 @@
+/* src/app/shared/loader/loader.component.css */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  z-index: 1000; /* Ensure it's on top of everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px); /* Optional blur effect */
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  animation: sk-rotate 2s infinite linear; /* Optional rotation for the container */
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #1565C0; /* Use a primary color */
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: sk-double-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation-delay: -1.0s; /* Start the second bounce halfway through */
+}
+
+@keyframes sk-rotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes sk-double-bounce {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1.0); }
+}

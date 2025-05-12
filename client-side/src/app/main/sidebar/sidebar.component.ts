@@ -13,12 +13,15 @@ export class SidebarComponent {
   constructor(private router: Router) { } // Inject Router
 
   logout() {
+    
+    // Navigate to the login page
+    this.router.navigate(['/auth/login']); // Navigate to your login route
+  
+    
     // Remove user data from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     // You might also want to clear any in-memory state if you have it
 
-    // Navigate to the login page
-    this.router.navigate(['/login']); // Navigate to your login route
-  }
+    }
 }
