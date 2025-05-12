@@ -1,102 +1,83 @@
+/* src/app/sidebar/sidebar.component.css */
 
+/* CSS Values applied directly - No variables */
 
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
-
-.layout {
+.sidebar-content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #81D4FA, #FFFFFF); /* Light blue to white gradient */
+  height: 100%; /* Occupy full height of the sidebar container */
+  padding: 16px 0; /* Vertical padding (padding-lg = 16px) */
 }
 
-/* Top Bar */
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  color: white; /* Change text color to white for contrast */
+.logo {
+  text-align: center;
+  margin-bottom: 16px; /* Space below logo (padding-lg = 16px) */
+  padding: 0 12px; /* Horizontal padding (padding-md = 12px) */
 }
 
 .logo img {
-  height: 7.5rem; /* Adjust as needed */
-  width: 15rem;
+  height: 5rem; /* Adjust size */
+  width: auto; /* Maintain aspect ratio */
   object-fit: contain;
-  border-radius: 5px; /* Optional: rounded edges */
+  border-radius: 4px; /* border-radius-1 = 4px */
 }
 
-
-.logo h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.logo .danger {
-  color: var(--clr-danger);
-}
-
-.close span {
-  display: none; /* show this on mobile if needed */
-}
-
-/* Sidebar */
-.sidebar {
+.menu {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 180px); /* Adjust depending on .top height */
-  padding-top: 1rem;
-  position: relative;
-  color: #333; /* Set text color to dark for contrast */
+  flex-grow: 1; /* Let menu take available space */
+  padding-left: 12px; /* Align links (padding-md = 12px) */
 }
 
-.sidebar a {
+.menu a {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  color: #333; /* Set text color to dark for better readability */
-  margin-left: 2rem;
-  height: 3.3rem;
+  gap: 8px; /* Space between icon and text (padding-sm = 8px) */
+  color: #333; /* clr-dark = #333 */
+  padding: 12px 16px; /* Padding around links (padding-md = 12px, padding-lg = 16px) */
+  margin-bottom: 8px; /* Space between links (padding-sm = 8px) */
   text-decoration: none;
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
+  border-radius: 4px 0 0 4px; /* Rounded left corner (border-radius-1 = 4px) */
 }
 
-.sidebar a span {
-  font-size: 1.6rem;
-  transition: all 0.3s ease-in-out;
+.menu a:hover {
+  background-color: #e0e0e0; /* Subtle hover effect (clr-grey = #e0e0e0) */
+  color: #333; /* clr-dark = #333 */
+  margin-left: 8px; /* Slight indent on hover (padding-sm = 8px) */
 }
 
-.sidebar a:hover span {
-  margin-left: 1rem;
+.menu a mat-icon {
+  font-size: 1.5rem; /* Icon size */
+  transition: all 0.2s ease;
 }
 
-.sidebar a.active {
-  background-color: #1565C0; /* Darker shade of blue for active links */
-  color: white;
-  border-left: 5px solid #0D47A1; /* Darker blue border */
-  margin-left: calc(1rem - 3px);
-}
+/* menu a:hover mat-icon {} - Optional: add icon specific hover style if needed */
 
-.sidebar a:last-child {
-  position: absolute;
-  bottom: 1rem;
-  width: 100%;
-}
-
-.sidebar a span.msg_count {
-  background-color: var(--clr-danger);
-  color: var(--clr-white);
-  padding: 2px 5px;
-  font-size: 11px;
-  border-radius: var(--border-radius-1);
-}
-
-/* Headings inside links */
-.sidebar h3 {
+.menu a h3 {
+  font-size: 1rem; /* Text size */
   font-weight: 500;
   margin: 0;
+}
+
+.menu a.active {
+  background-color: #1565C0; /* Darker shade of blue (clr-primary = #1565C0) */
+  color: #FFFFFF; /* White (clr-white = #FFFFFF) */
+  border-left: 5px solid #0D47A1; /* Darker blue border (clr-primary-dark = #0D47A1) */
+  padding-left: calc(16px - 5px); /* Adjust padding to keep alignment (padding-lg = 16px) */
+}
+
+/* Style for the logout link */
+.logout-link {
+    margin-top: auto; /* Pushes the logout link to the bottom */
+    /* Add specific logout link styles if needed */
+}
+
+.menu a span.msg_count {
+  background-color: #f44336; /* Danger color (clr-danger = #f44336) */
+  color: #FFFFFF; /* White (clr-white = #FFFFFF) */
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  border-radius: 4px; /* border-radius-1 = 4px */
+  margin-left: auto; /* Push count to the right */
 }

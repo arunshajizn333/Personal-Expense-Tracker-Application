@@ -12,5 +12,4 @@ export class MainComponent {
   toggleSideMenu() {
     this.sideMenuVisible = !this.sideMenuVisible;
   }
-
 }

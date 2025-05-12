@@ -1,11 +1,6 @@
 <div class="profile-page-container">
   <mat-card class="profile-card">
-    <mat-card-header class="profile-card-header">
-      <img mat-card-avatar src="assets/user.jpg" alt="User Avatar" class="profile-avatar-img">
-      <mat-card-title>{{ currentUser?.userName }}</mat-card-title>
-      <mat-card-subtitle>{{ currentUser?.email }}</mat-card-subtitle>
-    </mat-card-header>
-
+   
     <mat-card-content class="profile-card-content">
       <div class="profile-main-content">
         <form [formGroup]="profileForm" class="profile-form">
@@ -64,7 +59,7 @@
 
         <div class="avatar-actions-section">
           <div class="avatar-container">
-            <img src="assets/user.jpg" alt="Profile Image" class="main-avatar-img" />
+            <img src="user.jpg" alt="Profile Image" class="main-avatar-img" />
             <button mat-flat-button color="accent" class="edit-avatar-btn" (click)="editAvatar()">
               <mat-icon>photo_camera</mat-icon>
               <span>Edit Avatar</span>

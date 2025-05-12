@@ -1,57 +1,205 @@
+/* src/app/main/main.component.css */
+
+/* CSS Values applied directly - No variables or :root */
+
 body {
-  width: 100vw;
-  height: 100vh;
-  font-size: 0.7rem;
-  user-select: none;
-  overflow-x: hidden;
-  background: var(--clr-color-background);
+  margin: 0;
   font-family: 'Poppins', sans-serif;
+  font-size: 1rem; /* Base font size */
+  line-height: 1.6;
+  color: #333; /* clr-dark = #333 */
+  background-color: #ccedfd; /* Light Pastel Blue (clr-background = #ccedfd) */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .container {
   display: grid;
-  grid-template-columns: 14rem 1fr; /* Sidebar and main content */
-  gap: 1.8rem;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  background: #ccedfd;
-  overflow-y: auto; /* Ensures no vertical scroll */
+  grid-template-columns: 16rem 1fr; /* Desktop grid (sidebar-width-desktop = 16rem) */
+  gap: 16px; /* Space between sidebar and main content (padding-lg = 16px) */
+  min-height: 100vh; /* Ensure container takes full viewport height */
+  transition: grid-template-columns 0.3s ease; /* Smooth transition on collapse */
 }
 
+/* --- Sidebar Styling --- */
 .sidebar {
-  background: linear-gradient(180deg, #c0ebff, #FFFFFF); /* Light blue to white gradient */
-  height: 100%;
-  padding: 1rem;
-  border-right: 2px solid #e0e0e0; /* Border for visual separation */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(180deg, #c0ebff, #FFFFFF); /* Gradient (clr-secondary, clr-white) */
+  /* border-right: 1px solid #e0e0e0; Optional border (clr-grey) */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow (box-shadow-sidebar) */
+  position: sticky; /* Make sidebar sticky */
+  top: 0; /* Stick to the top */
+  height: 100vh; /* Full height */
+  overflow-y: auto; /* Add scroll if content exceeds height */
+  transition: transform 0.3s ease; /* Smooth collapse/expand transition */
+  z-index: 100; /* Ensure it's above other content */
 }
 
+/* State when sidebar is hidden/collapsed */
+.sidebar.hidden {
+    transform: translateX(-100%); /* Hide off-screen */
+    /* width: 0; Could use width: 0 with overflow: hidden instead of transform */
+    pointer-events: none; /* Disable interaction when hidden */
+    opacity: 0; /* Fade out */
+}
+
+/* Adjust container grid when sidebar is hidden */
+.container.sidebar-collapsed {
+    grid-template-columns: 0 1fr; /* Sidebar column collapses to 0 */
+    gap: 0; /* Remove gap */
+}
+
+/* --- Main Content Styling --- */
 .main-content {
-  margin-top: 1.4rem;
-  padding: 1rem;
-  width: 98%;
-  background: #ccedfd; /* Light pastel blue */
-  overflow-y: auto; /* Scrolls the main content */
-  height: calc(100vh - 1.4rem); /* Adjust to prevent overflow */
+  padding: 12px 16px; /* Padding (padding-md = 12px, padding-lg = 16px) */
+  background-color: #f0f0f0; /* Light background for content area (clr-light-grey = #f0f0f0) */
+  border-radius: 4px; /* border-radius-1 = 4px */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow (box-shadow-subtle) */
+  overflow-y: auto; /* Allow main content to scroll */
+  height: calc(100vh - 12px * 2); /* Calculate height based on padding */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Hide sidebar and use full width when sidebar is hidden */
-.sidebar-hidden {
-  display: none;
+.main-header {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* padding-md = 12px */
+    padding-bottom: 12px; /* Space below header (padding-md = 12px) */
+    margin-bottom: 12px; /* padding-md = 12px */
+    border-bottom: 1px solid #e0e0e0; /* Separator (clr-grey = #e0e0e0) */
 }
 
-/* Hide scrollbar for Chrome, Safari and Edge */
-.container::-webkit-scrollbar,
+.main-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #0D47A1; /* clr-primary-dark = #0D47A1 */
+}
+
+.sidebar-toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px; /* padding-sm = 8px */
+    border-radius: 4px; /* border-radius-1 = 4px */
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-toggle-button:hover {
+    background-color: #e0e0e0; /* clr-grey = #e0e0e0 */
+}
+
+.sidebar-toggle-button span.material-symbols-sharp {
+    font-size: 1.8rem;
+    color: #333; /* clr-dark = #333 */
+}
+
+.content-area {
+    flex-grow: 1; /* Let the content area take remaining space */
+    /* Add padding if needed within the content area itself */
+}
+
+
+/* --- Responsiveness --- */
+
+/* Hide scrollbar for modern browsers */
+.sidebar::-webkit-scrollbar,
 .main-content::-webkit-scrollbar {
   display: none;
 }
-
-/* Hide scrollbar for Firefox */
-.container,
+.sidebar,
 .main-content {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+
+@media (max-width: 768px) { /* Tablets and Phones */
+  .container {
+    grid-template-columns: 1fr; /* Stack main content to full width */
+    gap: 0; /* Remove gap */
+  }
+
+  .sidebar {
+    position: fixed; /* Fixed position for overlay */
+    left: 0;
+    top: 0;
+    width: 70vw; /* Take up 70% of viewport width */
+    max-width: 250px; /* Max width on larger screens */
+    height: 100vh;
+    transform: translateX(-100%); /* Hide sidebar by default */
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); /* Stronger shadow for overlay */
+    z-index: 101; /* Above backdrop */
+  }
+
+  .sidebar.hidden {
+      transform: translateX(-100%); /* Ensure it's hidden */
+      pointer-events: auto; /* Re-enable pointer events when visible */
+      opacity: 1; /* Keep opacity */
+  }
+
+   /* Show sidebar when not collapsed (mobile) */
+  .container:not(.sidebar-collapsed) .sidebar {
+       transform: translateX(0); /* Show the sidebar */
+  }
+
+
+  .main-content {
+    padding: 12px; /* Adjust padding (padding-md = 12px) */
+    height: calc(100vh - 12px * 2); /* Adjust height */
+  }
+
+   .main-header {
+       padding-bottom: 8px; /* padding-sm = 8px */
+       margin-bottom: 8px; /* padding-sm = 8px */
+   }
+
+   .main-header h2 {
+       font-size: 1.3rem;
+   }
+
+    /* Backdrop overlay when sidebar is open on mobile */
+   .backdrop {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100vw;
+       height: 100vh;
+       background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+       z-index: 100; /* Below sidebar, above main content */
+       animation: fadeIn 0.3s ease-in-out;
+   }
+
+   /* Hide backdrop when sidebar is collapsed */
+   .container.sidebar-collapsed .backdrop {
+       display: none;
+   }
+
+   /* Basic fade-in animation */
+   @keyframes fadeIn {
+       from { opacity: 0; }
+       to { opacity: 1; }
+   }
+
+}
+
+@media (max-width: 480px) { /* Smaller Phones */
+   body {
+       font-size: 0.9rem; /* Reduce base font size */
+   }
+
+   .main-content {
+       padding: 8px; /* padding-sm = 8px */
+   }
+
+   .main-header h2 {
+       font-size: 1.2rem;
+   }
+
+   .sidebar-toggle-button span.material-symbols-sharp {
+       font-size: 1.6rem;
+   }
+
+    .sidebar {
+        width: 80vw; /* Take up more width on smaller phones */
+    }
 }

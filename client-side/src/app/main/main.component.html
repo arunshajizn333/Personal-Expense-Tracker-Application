@@ -1,14 +1,21 @@
-<div class="container" [ngClass]="{ 'sidebar-hidden': !sideMenuVisible }">
-  <!-- Sidebar -->
-  <aside *ngIf="sideMenuVisible" class="sidebar">
-    <app-sidebar></app-sidebar>
+<div class="container" [ngClass]="{ 'sidebar-collapsed': !sideMenuVisible }">
+
+  <aside class="sidebar" [ngClass]="{ 'hidden': !sideMenuVisible }">
+      <app-sidebar></app-sidebar>
   </aside>
 
-  <!-- Main Content -->
   <div class="main-content">
-    <button *ngIf="!sideMenuVisible" id="menu_bar" (click)="toggleSideMenu()">
-      <span class="material-symbols-sharp">menu</span>
-    </button>
-    <router-outlet></router-outlet>
+    <header class="main-header">
+       <button class="sidebar-toggle-button" (click)="toggleSideMenu()">
+          <mat-icon>menu</mat-icon>
+       </button>
+     
+    </header>
+
+    <div class="content-area">
+       <router-outlet></router-outlet>
+    </div>
   </div>
+
+  <div class="backdrop" *ngIf="sideMenuVisible" (click)="toggleSideMenu()"></div>
 </div>
