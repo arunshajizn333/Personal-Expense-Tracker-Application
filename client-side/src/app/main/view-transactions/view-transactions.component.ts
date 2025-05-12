@@ -5,6 +5,7 @@ import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service'; // Adjust path
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Define a type for summary calculations
 interface TransactionSummary {
@@ -47,6 +48,7 @@ export class ViewTransactionsComponent implements OnInit, OnDestroy {
   private transactionSubscription: Subscription | undefined;
   readonly dialog = inject(MatDialog);
   private transactionService = inject(TransactionService);
+   private snackBar=inject(MatSnackBar) 
 
   ngOnInit(): void {
     this.loadTransactions();
@@ -183,7 +185,9 @@ export class ViewTransactionsComponent implements OnInit, OnDestroy {
   }
 
   deleteTransaction(id: string): void {
-    if (confirm('Are you sure you want to delete this transaction?')) {
+    console.log("id :",id);
+    
+   
       this.isLoading = true;
       this.transactionService.deleteTransaction(id).subscribe({
         next: () => {
@@ -191,13 +195,15 @@ export class ViewTransactionsComponent implements OnInit, OnDestroy {
           // this.applyFiltersAndPagination();
           this.loadTransactions(); // Reload to ensure consistency
           console.log(`Transaction ${id} deleted`);
+          this.snackBar.open('Transaction Deleted Succesfully', '', { duration: 3000 });
+  
         },
         error: (err) => {
           this.errorMessage = `Failed to delete transaction. ${err.message || 'Server error'}`;
           this.isLoading = false;
         }
       });
-    }
+    
   }
 
   onFileUpload(event: any): void {

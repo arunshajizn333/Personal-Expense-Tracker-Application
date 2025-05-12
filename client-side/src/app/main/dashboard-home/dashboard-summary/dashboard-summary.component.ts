@@ -58,7 +58,7 @@ export class DashboardSummaryComponent implements OnInit, OnDestroy {
           // Potentially update progress percentages based on data if you have targets
           // For example: this.incomeProgress = (this.totalIncome / targetIncome) * 100;
         } else {
-          this.errorMessage = "No monthly data available.";
+          this.errorMessage = "No monthly data available ,add transaction to view";
         }
         this.isLoading = false;
       },

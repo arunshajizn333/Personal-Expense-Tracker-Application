@@ -1,0 +1,11 @@
+type,amount,mode,category,date,note
+expense,300,card,Entertainment,2025-05-02T20:00:00.000Z,Movie night
+income,5000,UPI,Salary,2025-05-01T10:00:00.000Z,Part-time job payment
+expense,1200,cast,Groceries,2025-05-03T15:30:00.000Z,Monthly grocery shopping
+savings,1000,bank transfer,Emergency Fund,2025-05-04T08:00:00.000Z,Transferred to savings account
+expense,250,UPI,Transport,2025-05-05T09:15:00.000Z,Auto ride to office
+income,2000,cast,Freelance,2025-05-06T12:45:00.000Z,Web design project
+expense,800,card,Health,2025-05-07T11:00:00.000Z,Medicine and consultation
+savings,1500,bank transfer,Vacation Fund,2025-05-08T17:00:00.000Z,Set aside for trip
+expense,100,UPI,Food,2025-05-09T13:00:00.000Z,Lunch at cafe
+income,300,cast,Gift,2025-05-10T18:30:00.000Z,Gift from friend
