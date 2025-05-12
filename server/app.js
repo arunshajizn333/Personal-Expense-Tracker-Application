@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:4200', // Angular dev server
+    origin: ['http://localhost:4200', 'http://localhost:4300'], // Angular dev server
     credentials: true
   }));
   
