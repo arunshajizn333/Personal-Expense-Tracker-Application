@@ -3,6 +3,10 @@ Personal Expense Tracker Application
 Project Overview
 The Personal Expense Tracker application is designed to help users manage their expenses efficiently. It leverages the MEAN stack (MongoDB, Express.js, Angular, Node.js) to provide a robust full-stack solution for expense tracking.
 
+## 🎥 Demo Video
+Watch the full demo of the Sacred Mission Hospital Management System here:
+ https://drive.google.com/file/d/1NwdesZoLJeBEIGohYAFgUQaFrM3Vth0F/view?usp=sharing
+
 Features
 User Account Management:
 
